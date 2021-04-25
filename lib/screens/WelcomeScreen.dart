@@ -1,5 +1,8 @@
 import 'package:chatnest/Helpers/colorpanel.dart';
+import 'package:chatnest/screens/HomeScreen.dart';
+import 'package:chatnest/screens/auth/SignInScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class WelcomeScreen extends StatefulWidget {
   @override
@@ -32,6 +35,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       style: TextStyle(
                         fontSize: MediaQuery.of(context).size.width * 0.07,
                         fontFamily: "OpenSans",
+                        color: ColorPalette['gray_4'],
                       ),
                     ),
                     Text(
@@ -40,6 +44,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         fontSize: MediaQuery.of(context).size.width * 0.08,
                         fontFamily: 'OpenSans',
                         color: ColorPalette['primary'],
+                        decoration: TextDecoration.underline,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ],
@@ -52,6 +58,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       Text(
                         "Simple and secure way for",
                         style: TextStyle(
+                          fontFamily: "OpenSans",
+                          color: ColorPalette['gray_3'],
                           fontSize: MediaQuery.of(context).size.width * 0.05,
                         ),
                       ),
@@ -61,7 +69,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       Text(
                         "Connecting People.",
                         style: TextStyle(
-                          fontFamily: "OpenSans_Light",
+                          fontFamily: "OpenSans",
+                          color: ColorPalette['gray_3'],
                           fontSize: MediaQuery.of(context).size.width * 0.05,
                         ),
                       ),
@@ -70,19 +79,41 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 ),
               ],
             ),
-            Container(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "Sign In",
-                    style: TextStyle(
-                      fontSize: 24,
-                      color: ColorPalette['primary'],
-                      fontWeight: FontWeight.bold,
-                    ),
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return SignInScreen();
+                    },
                   ),
-                ],
+                );
+              },
+              child: Container(
+                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 40),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  color: ColorPalette['primary'],
+                  boxShadow: [
+                    BoxShadow(
+                      color: Color(0xFF000000).withOpacity(0.2),
+                      blurRadius: 6.0,
+                      spreadRadius: 3.0,
+                      offset: Offset(
+                        4.0,
+                        4.0,
+                      ),
+                    ),
+                  ],
+                ),
+                child: Text(
+                  "Sign In",
+                  style: TextStyle(
+                    fontSize: MediaQuery.of(context).size.width * 0.05,
+                    color: ColorPalette['white_2'],
+                    // fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
             ),
           ],

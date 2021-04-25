@@ -1,5 +1,6 @@
 import 'package:chatnest/screens/HomeScreen.dart';
 import 'package:chatnest/screens/WelcomeScreen.dart';
+import 'package:chatnest/screens/auth/CredentialsScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -18,13 +19,17 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         fontFamily: 'OpenSans',
-        brightness: Brightness.dark,
+        brightness: Brightness.light,
       ),
       home: StreamBuilder(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, userSnapsort) {
           if (userSnapsort.hasData) {
-            return HomeScreen();
+            if (FirebaseAuth.instance.currentUser.email != null) {
+              return HomeScreen();
+            } else {
+              return CredentialsScreen();
+            }
           } else {
             return WelcomeScreen();
           }
