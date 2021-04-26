@@ -39,6 +39,12 @@ dev_dependencies:
     flutter_test:
         sdk: flutter
 
+flutter_icons:
+    ios: true
+    android: true
+    image_path_ios: "assets/images/ChatNest.png"
+    image_path_android: "assets/images/ChatNest.png"
+
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
@@ -72,7 +78,7 @@ flutter:
           fonts:
               - asset: assets/fonts/Roboto/Roboto-Regular.ttf
 
-        - family: Roboto
+        - family: Roboto_Thin
           fonts:
               - asset: assets/fonts/Roboto/Roboto-Thin.ttf
 

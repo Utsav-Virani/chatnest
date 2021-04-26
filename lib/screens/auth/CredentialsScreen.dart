@@ -27,6 +27,7 @@ class _CredentialsScreenState extends State<CredentialsScreen> {
     Map<String, String> userData = {
       "name": _userNameController.text,
       "email": _emailController.text,
+      "phonenumber": FirebaseAuth.instance.currentUser.phoneNumber,
     };
 
     try {

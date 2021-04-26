@@ -23,7 +23,16 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             Container(
               height: 200,
               width: 200,
-              color: ColorPalette['primary'],
+              // color: ColorPalette['primary'],
+              // child: Image.asset(
+              //   "assets/images/ChatNest.png",
+              //   height: 200,
+              //   width: 100,
+              // ),
+              child: SvgPicture.asset(
+                'assets/svgs/ChatNest_logo_white.svg',
+                width: MediaQuery.of(context).size.width * 0.6,
+              ),
             ),
             Column(
               children: [
@@ -96,9 +105,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   color: ColorPalette['primary'],
                   boxShadow: [
                     BoxShadow(
-                      color: Color(0xFF000000).withOpacity(0.2),
+                      color: Color(0xFF000000).withOpacity(0.3),
                       blurRadius: 6.0,
-                      spreadRadius: 3.0,
+                      spreadRadius: 2.0,
                       offset: Offset(
                         4.0,
                         4.0,

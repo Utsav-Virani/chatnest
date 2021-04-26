@@ -14,28 +14,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBar(context, title: "CHATNEST"),
-      drawer: Drawer(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              child: MaterialButton(
-                onPressed: () {
-                  FirebaseAuth.instance.signOut();
-                  Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(
-                      builder: (context) => WelcomeScreen(),
-                    ),
-                  );
-                },
-                color: ColorPalette['yellow_2'],
-                child: Text("Sign Out"),
-              ),
-            ),
-          ],
-        ),
-      ),
+      drawer: HomeScreenDrawer(context),
       body: Container(
         child: Text("Home"),
       ),

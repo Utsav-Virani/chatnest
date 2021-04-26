@@ -3,9 +3,6 @@ import 'package:flutter/material.dart';
 // ignore: non_constant_identifier_names
 Map<String, Color> ColorPalette = {
   "primary": Color(0xFFC06014),
-  // "primary": Color(0xFF4B778D),
-  "primary_2": Color(0xFF264653),
-  "primary_1": Color(0xFF173E43),
   "secondary": Color(0xFFB68973),
   "yellow_1": Color(0xFFFFE268),
   "yellow_2": Color(0xFFFFB037),
@@ -14,6 +11,10 @@ Map<String, Color> ColorPalette = {
   "pich_1": Color(0xFFe76f51),
   "orange_1": Color(0xFFA35709),
   // "orange_2": Color(0xFFC06014),
+  // "primary": Color(0xFF4B778D),
+  "primary_2": Color(0xFF264653),
+  "primary_1": Color(0xFF173E43),
+
   "cyandd_1": Color(0xFF6DDCCF),
   "bluedd_1": Color(0xFF136897),
   "bluedd_2": Color(0xFF0061A8),
