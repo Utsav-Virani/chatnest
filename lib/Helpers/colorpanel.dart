@@ -28,4 +28,5 @@ Map<String, Color> ColorPalette = {
   // "gray_4": Color(0xFFCCCCCC),
   "white_1": Color(0xFFD9D9D9),
   "white_2": Color(0xFFEFEFEF),
+  "white_3": Color(0xFFFEFEFE),
 };

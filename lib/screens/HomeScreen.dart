@@ -1,7 +1,5 @@
 import 'package:chatnest/Helpers/HelperWidgets.dart';
 import 'package:chatnest/Helpers/colorpanel.dart';
-import 'package:chatnest/screens/WelcomeScreen.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -14,9 +12,37 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBar(context, title: "CHATNEST"),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+      ),
       drawer: HomeScreenDrawer(context),
       body: Container(
-        child: Text("Home"),
+        child: Column(
+          children: [
+            Container(
+              height: 50,
+              decoration: BoxDecoration(
+                color: ColorPalette['primary'],
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Chat",
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: ColorPalette['white_3'],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              child: Text("Home"),
+            ),
+          ],
+        ),
       ),
     );
   }
