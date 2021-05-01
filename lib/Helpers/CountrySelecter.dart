@@ -51,20 +51,19 @@ class _CountrySelecterState extends State<CountrySelecter> {
                   horizontal: 10,
                 ),
                 decoration: BoxDecoration(
-                  color: ColorPalette['gray_1'],
-                  border: Border.all(width: 1, color: Colors.transparent),
+                  border: Border.all(width: 1, color: ColorPalette['gray_0']),
                   borderRadius: BorderRadius.all(Radius.circular(10)),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Color(0xFF000000).withOpacity(0.2),
-                      blurRadius: 5.0,
-                      spreadRadius: 1.0,
-                      offset: Offset(
-                        4.0,
-                        4.0,
-                      ),
-                    )
-                  ],
+                  // boxShadow: [
+                  //   BoxShadow(
+                  //     color: Color(0xFF000000).withOpacity(0.2),
+                  //     blurRadius: 5.0,
+                  //     spreadRadius: 1.0,
+                  //     offset: Offset(
+                  //       4.0,
+                  //       4.0,
+                  //     ),
+                  //   )
+                  // ],
                 ),
                 child: ListTile(
                   leading: Text(

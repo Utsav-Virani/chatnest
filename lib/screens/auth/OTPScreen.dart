@@ -5,6 +5,7 @@ import 'package:chatnest/screens/auth/SignInScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pin_put/pin_put.dart';
+import 'package:circular_countdown/circular_countdown.dart';
 
 class OTPScreen extends StatefulWidget {
   final String phoneNumber;
@@ -92,10 +93,10 @@ class _OTPScreenState extends State<OTPScreen> {
       key: _scaffoldKey,
       body: Center(
         child: Container(
-          height: MediaQuery.of(context).size.height * 0.39,
+          // height: MediaQuery.of(context).size.height * 0.45,
           padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
           child: Column(
-            // mainAxisSize: MainAxisSize.min,
+            mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -103,6 +104,25 @@ class _OTPScreenState extends State<OTPScreen> {
                 // color: ColorPalette['secondary'],
                 child: Column(
                   children: [
+                    TimeCircularCountdown(
+                      unit: CountdownUnit.second,
+                      countdownTotal: 60,
+                      countdownTotalColor: ColorPalette['primary'],
+                      countdownRemainingColor: Colors.transparent,
+                      repeat: false,
+                      strokeWidth: 5,
+                      diameter: 130,
+                      textStyle: TextStyle(
+                        color: ColorPalette['gray_0'],
+                        fontSize: 40,
+                      ),
+                      onUpdated: (unit, remainingTime) => print('Updated'),
+                      onFinished: () => print('Countdown finished'),
+                    ),
+                    SizedBox(
+                      height: 50,
+                      width: 0,
+                    ),
                     Text(
                       "We have sent OTP on your number",
                       style: TextStyle(

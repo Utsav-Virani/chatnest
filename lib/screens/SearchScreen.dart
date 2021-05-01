@@ -72,14 +72,20 @@ class _SearchScreenState extends State<SearchScreen> {
     }
   }
 
-  _createChatRoom({userId}) {
+  _createChatRoom({userId, name}) {
     if (userId != FirebaseAuth.instance.currentUser.uid) {
       String _charRoomId =
           getChatRoomId(userId, FirebaseAuth.instance.currentUser.uid);
       List<String> users = [userId, FirebaseAuth.instance.currentUser.uid];
+      Map<String, String> usersName = {
+        userId: name,
+        FirebaseAuth.instance.currentUser.uid:
+            FirebaseAuth.instance.currentUser.displayName
+      };
       Map<String, dynamic> _chatRoomMap = {
         "users": users,
-        "chatRoomId": _charRoomId
+        "chatRoomId": _charRoomId,
+        "usersName": usersName,
       };
 
       FirebaseFirestore.instance
@@ -157,7 +163,7 @@ class _SearchScreenState extends State<SearchScreen> {
           subtitle: Text(phone),
           trailing: GestureDetector(
             onTap: () {
-              _createChatRoom(userId: id);
+              _createChatRoom(userId: id, name: name);
               // setState(() {
               //   isAdded = !isAdded;
               // });
