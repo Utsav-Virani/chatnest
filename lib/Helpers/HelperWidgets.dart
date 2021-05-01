@@ -18,7 +18,7 @@ Widget appBar(BuildContext context, {title}) {
   );
 }
 
-Widget HomeScreenDrawer(BuildContext context) {
+Widget homeScreenDrawer(BuildContext context) {
   return Drawer(
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.center,

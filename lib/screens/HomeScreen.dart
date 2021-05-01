@@ -1,6 +1,8 @@
 import 'package:chatnest/Helpers/HelperWidgets.dart';
 import 'package:chatnest/Helpers/colorpanel.dart';
+import 'package:chatnest/screens/SearchScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -11,11 +13,37 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBar(context, title: "CHATNEST"),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+      appBar: AppBar(
+        // backgroundColor: Colors.amber,
+        centerTitle: true,
+        backgroundColor: ColorPalette['primary'],
+        title: Text(
+          "CHATNEST",
+          style: TextStyle(
+            fontSize: 26,
+          ),
+        ),
+        elevation: 0.0,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.person_add_alt_1_outlined),
+            onPressed: () {
+              Navigator.of(context).push(
+                // MaterialPageRoute(
+                //   builder: (context) {
+                //     return SearchScreen();
+                //   },
+                // ),
+                PageTransition(
+                  type: PageTransitionType.rightToLeft,
+                  child: SearchScreen(),
+                ),
+              );
+            },
+          ),
+        ],
       ),
-      drawer: HomeScreenDrawer(context),
+      drawer: homeScreenDrawer(context),
       body: Container(
         child: Column(
           children: [
