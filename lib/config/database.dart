@@ -1,6 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DataBaseMethods {
+  uploadUserInfo(userData, userId) {
+    FirebaseFirestore.instance.collection("UserData").doc(userId).set(userData);
+  }
+
   setConversionMessages(String _chatRoomId, _messageMap) {
     FirebaseFirestore.instance
         .collection("chatRoom")

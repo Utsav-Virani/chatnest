@@ -1,4 +1,7 @@
 import 'package:chatnest/Helpers/colorpanel.dart';
+import 'package:chatnest/config/database.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -13,18 +16,64 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
-  TextEditingController _chatMessgae = TextEditingController();
+  TextEditingController _chatMessgaeController = TextEditingController();
   Stream _chatMessageStream;
-  _sendMessage() {}
+
+  DataBaseMethods _dataBaseMethods = new DataBaseMethods();
+
+  _sendMessage() {
+    // print(DateTime.now());
+    if (_chatMessgaeController.text.isNotEmpty) {
+      Map<String, dynamic> _messageMap = {
+        "message": _chatMessgaeController.text,
+        "sentBy": FirebaseAuth.instance.currentUser.displayName,
+        "time": DateTime.now(),
+      };
+
+      _dataBaseMethods.setConversionMessages(widget.chatRoomId, _messageMap);
+      _chatMessgaeController.text = "";
+    }
+  }
 
   @override
   void initState() {
+    _dataBaseMethods.getConversionMessages(widget.chatRoomId).then((value) {
+      setState(() {
+        _chatMessageStream = value;
+      });
+    });
     super.initState();
+  }
+
+  Widget ChatMessageList() {
+    return StreamBuilder(
+      stream: _chatMessageStream,
+      builder: (context, snapshot) {
+        if (!snapshot.hasData ||
+            snapshot.connectionState == ConnectionState.waiting) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        return ListView.builder(
+          padding: EdgeInsets.symmetric(horizontal: 10),
+          reverse: true,
+          itemCount: snapshot.data.docs.length,
+          itemBuilder: (context, index) {
+            // print(snapshot.data.docs[index].data()["sentBy"]);
+            return MessageTile(
+                snapshot.data.docs[index].data()["message"],
+                snapshot.data.docs[index].data()["sentBy"] ==
+                    FirebaseAuth.instance.currentUser.displayName);
+          },
+        );
+      },
+    );
   }
 
   @override
   void dispose() {
-    _chatMessgae.dispose();
+    _chatMessgaeController.dispose();
     super.dispose();
   }
 
@@ -47,9 +96,7 @@ class _ChatScreenState extends State<ChatScreen> {
           mainAxisSize: MainAxisSize.max,
           children: [
             Expanded(
-              child: Container(
-                  // color: Colors.yellow,
-                  ),
+              child: ChatMessageList(),
             ),
             Container(
               margin: EdgeInsets.only(bottom: 10, top: 10),
@@ -72,7 +119,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       ),
                       width: MediaQuery.of(context).size.width * 0.80,
                       child: TextFormField(
-                        controller: _chatMessgae,
+                        controller: _chatMessgaeController,
                         textAlignVertical: TextAlignVertical.center,
                         autovalidateMode: AutovalidateMode.disabled,
                         textCapitalization: TextCapitalization.sentences,
@@ -104,6 +151,49 @@ class _ChatScreenState extends State<ChatScreen> {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class MessageTile extends StatelessWidget {
+  final String _message;
+  final bool _isSendByMe;
+
+  MessageTile(this._message, this._isSendByMe);
+
+  @override
+  Widget build(BuildContext context) {
+    // print(_isSendByMe);.
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      alignment: _isSendByMe ? Alignment.centerRight : Alignment.centerLeft,
+      child: Container(
+        margin: EdgeInsets.symmetric(vertical: 5, horizontal: 6),
+        padding: EdgeInsets.symmetric(horizontal: 25, vertical: 8),
+        // height: 40,
+        decoration: _isSendByMe
+            ? BoxDecoration(
+                color: ColorPalette['secondary'].withOpacity(0.5),
+                border: Border.all(width: 1, color: ColorPalette['secondary']),
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(30),
+                  topLeft: Radius.circular(30),
+                  topRight: Radius.circular(30),
+                ))
+            : BoxDecoration(
+                color: ColorPalette['gray_0'].withOpacity(0.3),
+                border: Border.all(width: 1, color: ColorPalette['gray_0']),
+                borderRadius: BorderRadius.only(
+                  bottomRight: Radius.circular(30),
+                  topLeft: Radius.circular(30),
+                  topRight: Radius.circular(30),
+                ),
+              ),
+        child: Text(
+          _message,
+          style: TextStyle(fontSize: 16),
         ),
       ),
     );
