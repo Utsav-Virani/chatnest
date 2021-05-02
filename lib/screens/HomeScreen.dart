@@ -1,5 +1,6 @@
 import 'package:chatnest/Helpers/HelperWidgets.dart';
 import 'package:chatnest/Helpers/colorpanel.dart';
+import 'package:chatnest/screens/ChatScreen.dart';
 import 'package:chatnest/screens/SearchScreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -162,28 +163,42 @@ class ChatRoomListTile extends StatelessWidget {
       margin: EdgeInsets.only(bottom: 15),
       height: 70,
       padding: EdgeInsets.symmetric(horizontal: 10),
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border(
-            bottom: BorderSide(
-              width: 1,
-              color: ColorPalette['gray_0'],
+      child: GestureDetector(
+        onTap: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) {
+                return ChatScreen(
+                  chatRoomId: _chatRoomId,
+                  chatUserName: _userName,
+                );
+              },
             ),
-          ),
-        ),
-        child: ListTile(
-          leading: CircleAvatar(
-            backgroundColor: ColorPalette['gray_0'].withOpacity(0.8),
-            radius: 22,
-            child: Text(
-              _userName[0],
-              style: TextStyle(
-                color: ColorPalette['white_3'],
-                fontWeight: FontWeight.bold,
+          );
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            border: Border(
+              bottom: BorderSide(
+                width: 1,
+                color: ColorPalette['gray_0'],
               ),
             ),
           ),
-          title: Text(_userName),
+          child: ListTile(
+            leading: CircleAvatar(
+              backgroundColor: ColorPalette['gray_0'].withOpacity(0.8),
+              radius: 22,
+              child: Text(
+                _userName[0],
+                style: TextStyle(
+                  color: ColorPalette['white_3'],
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            title: Text(_userName),
+          ),
         ),
       ),
     );

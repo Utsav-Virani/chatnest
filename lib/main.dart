@@ -1,3 +1,4 @@
+import 'package:chatnest/Helpers/colorpanel.dart';
 import 'package:chatnest/screens/HomeScreen.dart';
 import 'package:chatnest/screens/WelcomeScreen.dart';
 import 'package:chatnest/screens/auth/CredentialsScreen.dart';
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: 'OpenSans',
         brightness: Brightness.light,
+        primaryColor: ColorPalette['primary'],
       ),
       home: StreamBuilder(
         stream: FirebaseAuth.instance.authStateChanges(),
