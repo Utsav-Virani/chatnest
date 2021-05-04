@@ -38,6 +38,8 @@ dependencies:
     lottie: ^0.7.0+1
     circular_countdown: ^2.0.0
     circular_countdown_timer: ^0.2.0
+    image_picker: ^0.7.4
+    http: ^0.13.2
 
 dev_dependencies:
     flutter_test:
