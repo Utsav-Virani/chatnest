@@ -170,7 +170,9 @@ class MessageTile extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       alignment: _isSendByMe ? Alignment.centerRight : Alignment.centerLeft,
       child: Container(
-        margin: EdgeInsets.symmetric(vertical: 5, horizontal: 6),
+        margin: _isSendByMe
+            ? EdgeInsets.symmetric(vertical: 2, horizontal: 6)
+            : EdgeInsets.symmetric(vertical: 5, horizontal: 6),
         padding: EdgeInsets.symmetric(horizontal: 25, vertical: 8),
         // height: 40,
         decoration: _isSendByMe

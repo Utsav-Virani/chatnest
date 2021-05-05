@@ -6,6 +6,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:line_icons/line_icons.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -82,59 +84,148 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  int _selectedIndex = 0;
+  static const TextStyle optionStyle =
+      TextStyle(fontSize: 30, fontWeight: FontWeight.w600);
+  static const List<Widget> _widgetOptions = <Widget>[
+    Text(
+      'Home',
+      style: optionStyle,
+    ),
+    Text(
+      'Likes',
+      style: optionStyle,
+    ),
+    Text(
+      'Search',
+      style: optionStyle,
+    ),
+    Text(
+      'Profile',
+      style: optionStyle,
+    ),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        // backgroundColor: Colors.amber,
-        centerTitle: true,
-        backgroundColor: ColorPalette['primary'],
-        title: Text(
-          "CHATNEST",
-          style: TextStyle(
-            fontSize: 26,
+      backgroundColor: WhitePalette['white_6'],
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(70),
+        child: AppBar(
+          // backgroundColor: Colors.amber,
+          iconTheme: IconThemeData(
+            color: WhitePalette['white_6'],
+            // color: ColorPalette['primary'],
+            // size: 35,
           ),
+          centerTitle: true,
+          // backgroundColor: WhitePalette['white_6'],
+          backgroundColor: ColorPalette['primary'],
+          title: Text(
+            "CHATNEST",
+            style: TextStyle(
+              fontSize: 30,
+              color: WhitePalette['white_6'],
+              // color: ColorPalette['primary'],
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          elevation: 0.0,
+          actions: [
+            IconButton(
+              icon: Icon(
+                Icons.person_add_alt_1_outlined,
+              ),
+              onPressed: () {
+                Navigator.of(context).push(
+                  // MaterialPageRoute(
+                  //   builder: (context) {
+                  //     return SearchScreen();
+                  //   },
+                  // ),
+                  PageTransition(
+                    type: PageTransitionType.rightToLeft,
+                    child: SearchScreen(),
+                  ),
+                );
+              },
+            ),
+          ],
         ),
-        elevation: 0.0,
-        actions: [
-          IconButton(
-            icon: Icon(Icons.person_add_alt_1_outlined),
-            onPressed: () {
-              Navigator.of(context).push(
-                // MaterialPageRoute(
-                //   builder: (context) {
-                //     return SearchScreen();
-                //   },
-                // ),
-                PageTransition(
-                  type: PageTransitionType.rightToLeft,
-                  child: SearchScreen(),
-                ),
-              );
-            },
-          ),
-        ],
       ),
       drawer: homeScreenDrawer(context),
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              blurRadius: 20,
+              color: Colors.black.withOpacity(.1),
+            )
+          ],
+        ),
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),
+            child: GNav(
+              rippleColor: Colors.grey[300],
+              hoverColor: Colors.grey[100],
+              gap: 8,
+              activeColor: Colors.black,
+              iconSize: 24,
+              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+              duration: Duration(milliseconds: 500),
+              tabBackgroundColor: ColorPalette['primary'].withOpacity(0.7),
+              color: Colors.black,
+              tabs: [
+                GButton(
+                  icon: LineIcons.home,
+                  text: 'Home',
+                ),
+                GButton(
+                  icon: LineIcons.heart,
+                  text: 'Likes',
+                ),
+                GButton(
+                  icon: LineIcons.search,
+                  text: 'Search',
+                ),
+                GButton(
+                  icon: LineIcons.user,
+                  text: 'Profile',
+                ),
+              ],
+              selectedIndex: _selectedIndex,
+              onTabChange: (index) {
+                setState(() {
+                  _selectedIndex = index;
+                });
+              },
+            ),
+          ),
+        ),
+      ),
       body: Container(
         child: Column(
           children: [
             Container(
-              height: 50,
+              height: 30,
               decoration: BoxDecoration(
-                color: ColorPalette['primary'],
+                // color: ColorPalette['primary'],
+                color: WhitePalette['white_6'],
               ),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    "Chat",
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: ColorPalette['white_3'],
-                    ),
-                  ),
+                  // Text(
+                  //   "Chat",
+                  //   style: TextStyle(
+                  //     fontSize: 18,
+                  //     color: ColorPalette['white_3'],
+                  //   ),
+                  // ),
                 ],
               ),
             ),
@@ -177,27 +268,44 @@ class ChatRoomListTile extends StatelessWidget {
           );
         },
         child: Container(
+          alignment: Alignment.centerLeft,
           decoration: BoxDecoration(
-            border: Border(
-              bottom: BorderSide(
-                width: 1,
-                color: ColorPalette['gray_0'],
+              color: WhitePalette['white_4'],
+              borderRadius: BorderRadius.all(
+                Radius.circular(10),
               ),
-            ),
-          ),
+              border: Border.all(
+                width: 1,
+                color: WhitePalette['white_4'],
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: WhitePalette['white_6'],
+                  blurRadius: 1,
+                  spreadRadius: 2,
+                  offset: Offset(2.0, 2.0),
+                ),
+              ]),
           child: ListTile(
             leading: CircleAvatar(
               backgroundColor: ColorPalette['gray_0'].withOpacity(0.8),
-              radius: 22,
+              radius: 24,
               child: Text(
                 _userName[0],
                 style: TextStyle(
                   color: ColorPalette['white_3'],
                   fontWeight: FontWeight.bold,
+                  fontFamily: 'OpenSans',
                 ),
               ),
             ),
-            title: Text(_userName),
+            title: Text(
+              _userName,
+              style: TextStyle(
+                fontSize: 20,
+                fontFamily: 'OpenSans',
+              ),
+            ),
           ),
         ),
       ),

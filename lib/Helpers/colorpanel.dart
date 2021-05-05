@@ -29,4 +29,18 @@ Map<String, Color> ColorPalette = {
   "white_1": Color(0xFFD9D9D9),
   "white_2": Color(0xFFEFEFEF),
   "white_3": Color(0xFFFEFEFE),
+  "white_01": Color(0xFFFDFEFE),
+  "white_02": Color(0xFFF7F9F9),
+  "white_03": Color(0xFFECF0F1),
+  "white_04": Color(0xFFD0D3D4),
+};
+
+// ignore: non_constant_identifier_names
+Map<String, Color> WhitePalette = {
+  "white_1": Color(0xFFb3b6b7),
+  "white_2": Color(0xFF979a9a),
+  "white_3": Color(0xFF7b7d7d),
+  "white_4": Color(0xFFfbfcfc),
+  "white_5": Color(0xFFf4f6f7),
+  "white_6": Color(0xFFf0f3f4),
 };

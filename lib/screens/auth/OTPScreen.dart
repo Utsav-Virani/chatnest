@@ -125,6 +125,7 @@ class _OTPScreenState extends State<OTPScreen> {
                     ),
                     Text(
                       "We have sent OTP on your number",
+                      textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 20,
                         color: ColorPalette['gray_4'],
