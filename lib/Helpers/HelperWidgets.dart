@@ -2,6 +2,7 @@ import 'package:chatnest/Helpers/colorpanel.dart';
 import 'package:chatnest/screens/WelcomeScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
 Widget appBar(BuildContext context, {title}) {
   return AppBar(
@@ -115,5 +116,11 @@ Widget homeScreenDrawer(BuildContext context) {
         ),
       ],
     ),
+  );
+}
+
+Widget bottomNavigator(BuildContext context) {
+  return CurvedNavigationBar(
+    items: [],
   );
 }

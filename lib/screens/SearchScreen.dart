@@ -1,24 +1,39 @@
 import 'package:chatnest/Helpers/HelperWidgets.dart';
 import 'package:chatnest/Helpers/colorpanel.dart';
+import 'package:chatnest/screens/HomeScreen.dart';
+import 'package:chatnest/screens/MyProfileScreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:ionicons/ionicons.dart';
+import 'package:line_icons/line_icons.dart';
 import 'package:lottie/lottie.dart';
 
 class SearchScreen extends StatefulWidget {
+  final int selectedIndx;
+  SearchScreen({this.selectedIndx});
   @override
   _SearchScreenState createState() => _SearchScreenState();
 }
 
 class _SearchScreenState extends State<SearchScreen> {
   TextEditingController _searchTextController = new TextEditingController();
+  static const TextStyle optionStyle =
+      TextStyle(fontSize: 30, fontWeight: FontWeight.w600);
 
   QuerySnapshot _searchResult;
+
+  GlobalKey _bottomNavigationKey = GlobalKey();
+  int _page = 0;
   bool isAdded = false;
+  int _selectedIndex;
 
   @override
   void initState() {
+    _page = widget.selectedIndx is Null ? 1 : widget.selectedIndx;
     super.initState();
   }
 
@@ -259,6 +274,171 @@ class _SearchScreenState extends State<SearchScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBar(context, title: "Add Friends"),
+      // bottomNavigationBar: Container(
+      //   decoration: BoxDecoration(
+      //     color: Colors.white,
+      //     boxShadow: [
+      //       BoxShadow(
+      //         blurRadius: 20,
+      //         color: Colors.black.withOpacity(.1),
+      //       )
+      //     ],
+      //   ),
+      //   child: SafeArea(
+      //     child: Padding(
+      //       padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),
+      //       child: GNav(
+      //         rippleColor: Colors.grey[300],
+      //         hoverColor: Colors.grey[100],
+      //         gap: 8,
+      //         activeColor: Colors.black,
+      //         iconSize: 24,
+      //         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+      //         duration: Duration(milliseconds: 500),
+      //         tabBackgroundColor: ColorPalette['primary'].withOpacity(0.7),
+      //         color: Colors.black,
+      //         // textStyle: TextStyle(),
+      //         // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      //         tabs: [
+      //           GButton(
+      //             icon: LineIcons.home,
+      //             // text: '',
+      //             // text: 'Home',
+      //             onPressed: () {
+      //               Navigator.of(context).pushReplacement(
+      //                 PageRouteBuilder(
+      //                   transitionDuration: Duration(seconds: 0),
+      //                   pageBuilder: (context, animation1, animation2) =>
+      //                       HomeScreen(
+      //                     selectedIndx: _selectedIndex,
+      //                   ),
+      //                 ),
+      //               );
+      //             },
+      //           ),
+      //           GButton(
+      //             icon: LineIcons.search,
+      //             // text: '',
+      //             // text: 'Search',
+      //           ),
+      //           GButton(
+      //             icon: Ionicons.person_add_outline,
+      //             // text: '',
+      //             // text: 'Request',
+      //           ),
+      //           GButton(
+      //             icon: LineIcons.user,
+      //             // text: '',
+      //             // text: 'Profile',
+      //             onPressed: () {
+      //               Navigator.of(context).pushReplacement(
+      //                 PageRouteBuilder(
+      //                   transitionDuration: Duration(seconds: 0),
+      //                   pageBuilder: (context, animation1, animation2) =>
+      //                       MyProfile(
+      //                     selectedIndx: _selectedIndex,
+      //                   ),
+      //                 ),
+      //               );
+      //             },
+      //           ),
+      //         ],
+      //         selectedIndex: _selectedIndex,
+      //         onTabChange: (index) {
+      //           setState(() {
+      //             _selectedIndex = index;
+      //           });
+      //         },
+      //       ),
+      //     ),
+      //   ),
+      // ),
+      bottomNavigationBar: CurvedNavigationBar(
+        key: _bottomNavigationKey,
+        index: _page,
+        height: 60.0,
+        items: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: Icon(
+              LineIcons.home,
+              size: _page == 0 ? 33 : 30,
+              // color: _page == 0 ? WhitePalette['white_4'] : Colors.black,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: Icon(
+              LineIcons.search,
+              size: _page == 1 ? 33 : 30,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: Icon(
+              Ionicons.person_add_outline,
+              size: _page == 2 ? 33 : 30,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: Icon(
+              LineIcons.user,
+              size: _page == 3 ? 33 : 30,
+            ),
+          ),
+        ],
+        color: ColorPalette['primary'].withOpacity(0.67),
+        buttonBackgroundColor: ColorPalette['primary'].withOpacity(0.67),
+        backgroundColor: WhitePalette['white_4'],
+        animationCurve: Curves.easeInOut,
+        animationDuration: Duration(milliseconds: 400),
+        onTap: (index) {
+          switch (index) {
+            case 0:
+              Navigator.of(context).pushReplacement(PageRouteBuilder(
+                  transitionDuration: Duration(milliseconds: 400),
+                  pageBuilder: (context, animation1, animation2) {
+                    return HomeScreen(
+                      selectedIndx: index,
+                    );
+                  }));
+              break;
+            case 1:
+              Navigator.of(context).pushReplacement(PageRouteBuilder(
+                  transitionDuration: Duration(milliseconds: 400),
+                  pageBuilder: (context, animation1, animation2) {
+                    return SearchScreen(
+                      selectedIndx: index,
+                    );
+                  }));
+              break;
+            case 2:
+              Navigator.of(context).pushReplacement(PageRouteBuilder(
+                  transitionDuration: Duration(milliseconds: 400),
+                  pageBuilder: (context, animation1, animation2) {
+                    return SearchScreen(
+                      selectedIndx: index,
+                    );
+                  }));
+              break;
+            case 3:
+              Navigator.of(context).pushReplacement(PageRouteBuilder(
+                  transitionDuration: Duration(milliseconds: 400),
+                  pageBuilder: (context, animation1, animation2) {
+                    return MyProfile(
+                      selectedIndx: index,
+                    );
+                  }));
+              break;
+            default:
+          }
+          setState(() {
+            _page = index;
+          });
+        },
+        letIndexChange: (index) => true,
+      ),
       body: Container(
         child: Column(
           children: [

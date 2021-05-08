@@ -22,6 +22,7 @@ class MyApp extends StatelessWidget {
         fontFamily: 'OpenSans',
         brightness: Brightness.light,
         primaryColor: ColorPalette['primary'],
+        primarySwatch: Colors.orange,
       ),
       home: StreamBuilder(
         stream: FirebaseAuth.instance.authStateChanges(),
