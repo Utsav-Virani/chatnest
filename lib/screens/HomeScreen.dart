@@ -32,7 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     // print();
-    _page = widget.selectedIndx is Null ? 1 : widget.selectedIndx;
+    _page = widget.selectedIndx is Null ? 0 : widget.selectedIndx;
 
     // _selectedIndex = widget.selectedIndx is Null ? 0 : widget.selectedIndx;
     _getChatRooms();
@@ -182,92 +182,224 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       // drawer: homeScreenDrawer(context),
 
-      bottomNavigationBar: CurvedNavigationBar(
-        key: _bottomNavigationKey,
-        index: _page,
-        height: 60.0,
-        items: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: Icon(
-              LineIcons.home,
-              size: _page == 0 ? 33 : 30,
-              // color: _page == 0 ? WhitePalette['white_4'] : Colors.black,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: Icon(
-              LineIcons.search,
-              size: _page == 1 ? 33 : 30,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: Icon(
-              Ionicons.person_add_outline,
-              size: _page == 2 ? 33 : 30,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: Icon(
-              LineIcons.user,
-              size: _page == 3 ? 33 : 30,
-            ),
-          ),
-        ],
-        color: ColorPalette['primary'].withOpacity(0.67),
-        buttonBackgroundColor: ColorPalette['primary'].withOpacity(0.67),
-        backgroundColor: WhitePalette['white_4'],
-        animationCurve: Curves.easeInOut,
-        animationDuration: Duration(milliseconds: 400),
-        onTap: (index) {
-          switch (index) {
-            case 0:
-              Navigator.of(context).pushReplacement(PageRouteBuilder(
-                  transitionDuration: Duration(milliseconds: 400),
-                  pageBuilder: (context, animation1, animation2) {
-                    return HomeScreen(
-                      selectedIndx: index,
-                    );
-                  }));
-              break;
-            case 1:
-              Navigator.of(context).pushReplacement(PageRouteBuilder(
-                  transitionDuration: Duration(milliseconds: 400),
-                  pageBuilder: (context, animation1, animation2) {
-                    return SearchScreen(
-                      selectedIndx: index,
-                    );
-                  }));
-              break;
-            case 2:
-              Navigator.of(context).pushReplacement(PageRouteBuilder(
-                  transitionDuration: Duration(milliseconds: 400),
-                  pageBuilder: (context, animation1, animation2) {
-                    return SearchScreen(
-                      selectedIndx: index,
-                    );
-                  }));
-              break;
-            case 3:
-              Navigator.of(context).pushReplacement(PageRouteBuilder(
-                  transitionDuration: Duration(milliseconds: 400),
-                  pageBuilder: (context, animation1, animation2) {
-                    return MyProfile(
-                      selectedIndx: index,
-                    );
-                  }));
-              break;
-            default:
-          }
-          setState(() {
-            _page = index;
-          });
-        },
-        letIndexChange: (index) => true,
+      bottomNavigationBar: BottomNavigator(
+        selectedIndx: _page,
       ),
+
+      // bottomNavigationBar: Container(
+      //   // child: ,
+      //   // color: Colors.blue,
+      //   height: MediaQuery.of(context).size.height * 0.1,
+      //   child: Container(
+      //     decoration: BoxDecoration(
+      //       color: ColorPalette['nav_bar'],
+      //       // color: Color(0xFFd9a072),
+      //       borderRadius: BorderRadius.only(
+      //         // topLeft: Radius.circular(100),
+      //         topLeft: Radius.elliptical(140, 35),
+      //         topRight: Radius.elliptical(140, 35),
+      //       ),
+      //     ),
+      //     child: Row(
+      //       crossAxisAlignment: CrossAxisAlignment.center,
+      //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      //       children: [
+      //         GestureDetector(
+      //           onTap: () {
+      //             setState(() {
+      //               _page = 0;
+      //             });
+      //           },
+      //           child: Container(
+      //             decoration: BoxDecoration(
+      //               color: _page == 0 ? Colors.black : Colors.transparent,
+      //               borderRadius: BorderRadius.all(
+      //                 Radius.circular(50),
+      //               ),
+      //             ),
+      //             padding: const EdgeInsets.all(10.0),
+      //             child: Icon(
+      //               LineIcons.home,
+      //               size: 30,
+      //               color: _page == 0 ? ColorPalette['nav_bar'] : Colors.black,
+      //             ),
+      //           ),
+      //         ),
+      //         GestureDetector(
+      //           onTap: () {
+      //             setState(() {
+      //               _page = 1;
+      //             });
+      //           },
+      //           child: Container(
+      //             decoration: BoxDecoration(
+      //               color: _page == 1 ? Colors.black : Colors.transparent,
+      //               borderRadius: BorderRadius.all(
+      //                 Radius.circular(50),
+      //               ),
+      //             ),
+      //             padding: const EdgeInsets.all(10.0),
+      //             child: Icon(
+      //               LineIcons.phone,
+      //               size: 30,
+      //               color: _page == 1 ? ColorPalette['nav_bar'] : Colors.black,
+      //             ),
+      //           ),
+      //         ),
+      //         GestureDetector(
+      //           onTap: () {
+      //             setState(() {
+      //               _page = 2;
+      //             });
+      //           },
+      //           child: Container(
+      //             decoration: BoxDecoration(
+      //               color: _page == 2 ? Colors.black : Colors.transparent,
+      //               borderRadius: BorderRadius.all(
+      //                 Radius.circular(50),
+      //               ),
+      //             ),
+      //             padding: const EdgeInsets.all(10.0),
+      //             child: Icon(
+      //               LineIcons.search,
+      //               size: 30,
+      //               color: _page == 2 ? ColorPalette['nav_bar'] : Colors.black,
+      //             ),
+      //           ),
+      //         ),
+      //         GestureDetector(
+      //           onTap: () {
+      //             setState(() {
+      //               _page = 3;
+      //             });
+      //           },
+      //           child: Container(
+      //             decoration: BoxDecoration(
+      //               color: _page == 3 ? Colors.black : Colors.transparent,
+      //               borderRadius: BorderRadius.all(
+      //                 Radius.circular(50),
+      //               ),
+      //             ),
+      //             padding: const EdgeInsets.all(10.0),
+      //             child: Icon(
+      //               Ionicons.person_add_outline,
+      //               size: 30,
+      //               color: _page == 3 ? ColorPalette['nav_bar'] : Colors.black,
+      //             ),
+      //           ),
+      //         ),
+      //         GestureDetector(
+      //           onTap: () {
+      //             setState(() {
+      //               _page = 4;
+      //             });
+      //           },
+      //           child: Container(
+      //             decoration: BoxDecoration(
+      //               color: _page == 4 ? Colors.black : Colors.transparent,
+      //               borderRadius: BorderRadius.all(
+      //                 Radius.circular(50),
+      //               ),
+      //             ),
+      //             padding: const EdgeInsets.all(10.0),
+      //             child: Icon(
+      //               LineIcons.user,
+      //               size: 30,
+      //               color: _page == 4 ? ColorPalette['nav_bar'] : Colors.black,
+      //             ),
+      //           ),
+      //         ),
+      //       ],
+      //     ),
+      //   ),
+      // ),
+
+      // bottomNavigationBar: CurvedNavigationBar(
+      //   key: _bottomNavigationKey,
+      //   index: _page,
+      //   height: 60.0,
+      //   items: <Widget>[
+      //     Padding(
+      //       padding: const EdgeInsets.all(4.0),
+      //       child: Icon(
+      //         LineIcons.home,
+      //         size: _page == 0 ? 33 : 30,
+      //         // color: _page == 0 ? WhitePalette['white_4'] : Colors.black,
+      //       ),
+      //     ),
+      //     Padding(
+      //       padding: const EdgeInsets.all(4.0),
+      //       child: Icon(
+      //         LineIcons.search,
+      //         size: _page == 1 ? 33 : 30,
+      //       ),
+      //     ),
+      //     Padding(
+      //       padding: const EdgeInsets.all(4.0),
+      //       child: Icon(
+      //         Ionicons.person_add_outline,
+      //         size: _page == 2 ? 33 : 30,
+      //       ),
+      //     ),
+      //     Padding(
+      //       padding: const EdgeInsets.all(4.0),
+      //       child: Icon(
+      //         LineIcons.user,
+      //         size: _page == 3 ? 33 : 30,
+      //       ),
+      //     ),
+      //   ],
+      //   color: ColorPalette['primary'].withOpacity(0.67),
+      //   buttonBackgroundColor: ColorPalette['primary'].withOpacity(0.67),
+      //   backgroundColor: WhitePalette['white_4'],
+      //   animationCurve: Curves.easeInOut,
+      //   animationDuration: Duration(milliseconds: 400),
+      //   onTap: (index) {
+      //     switch (index) {
+      //       case 0:
+      //         Navigator.of(context).pushReplacement(PageRouteBuilder(
+      //             transitionDuration: Duration(milliseconds: 400),
+      //             pageBuilder: (context, animation1, animation2) {
+      //               return HomeScreen(
+      //                 selectedIndx: index,
+      //               );
+      //             }));
+      //         break;
+      //       case 1:
+      //         Navigator.of(context).pushReplacement(PageRouteBuilder(
+      //             transitionDuration: Duration(milliseconds: 400),
+      //             pageBuilder: (context, animation1, animation2) {
+      //               return SearchScreen(
+      //                 selectedIndx: index,
+      //               );
+      //             }));
+      //         break;
+      //       case 2:
+      //         Navigator.of(context).pushReplacement(PageRouteBuilder(
+      //             transitionDuration: Duration(milliseconds: 400),
+      //             pageBuilder: (context, animation1, animation2) {
+      //               return SearchScreen(
+      //                 selectedIndx: index,
+      //               );
+      //             }));
+      //         break;
+      //       case 3:
+      //         Navigator.of(context).pushReplacement(PageRouteBuilder(
+      //             transitionDuration: Duration(milliseconds: 400),
+      //             pageBuilder: (context, animation1, animation2) {
+      //               return MyProfile(
+      //                 selectedIndx: index,
+      //               );
+      //             }));
+      //         break;
+      //       default:
+      //     }
+      //     setState(() {
+      //       _page = index;
+      //     });
+      //   },
+      //   letIndexChange: (index) => true,
+      // ),
 
       // bottomNavigationBar: Container(
       //   decoration: BoxDecoration(

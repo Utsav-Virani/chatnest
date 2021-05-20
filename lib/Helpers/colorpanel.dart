@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 // ignore: non_constant_identifier_names
 Map<String, Color> ColorPalette = {
   "primary": Color(0xFFC06014),
+  "nav_bar": Color(0xFFd9a072),
   "secondary": Color(0xFFB68973),
   "yellow_1": Color(0xFFFFE268),
   "yellow_2": Color(0xFFFFB037),

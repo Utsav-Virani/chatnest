@@ -1,8 +1,11 @@
 import 'package:chatnest/Helpers/colorpanel.dart';
+import 'package:chatnest/screens/MyProfileScreen.dart';
 import 'package:chatnest/screens/WelcomeScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:ionicons/ionicons.dart';
+import 'package:line_icons/line_icons.dart';
 
 Widget appBar(BuildContext context, {title}) {
   return AppBar(
@@ -119,8 +122,161 @@ Widget homeScreenDrawer(BuildContext context) {
   );
 }
 
-Widget bottomNavigator(BuildContext context) {
-  return CurvedNavigationBar(
-    items: [],
-  );
+// Widget bottomNavigator(BuildContext context) {}
+
+class BottomNavigator extends StatefulWidget {
+  final int selectedIndx;
+  BottomNavigator({this.selectedIndx});
+  @override
+  _BottomNavigatorState createState() => _BottomNavigatorState();
+}
+
+class _BottomNavigatorState extends State<BottomNavigator> {
+  int _page = 0;
+
+  @override
+  void initState() {
+    _page = widget.selectedIndx is Null ? 0 : widget.selectedIndx;
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      // child: ,
+      // color: Colors.blue,
+      height: MediaQuery.of(context).size.height * 0.1,
+      padding: EdgeInsets.symmetric(horizontal: 20),
+      // color: Colors.amberAccent,
+      child: Container(
+        decoration: BoxDecoration(
+          // color: ColorPalette['nav_bar'],
+          // color: Color(0xFFd9a072),
+          borderRadius: BorderRadius.only(
+            // topLeft: Radius.circular(100),
+            topLeft: Radius.elliptical(140, 35),
+            topRight: Radius.elliptical(140, 35),
+          ),
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  _page = 0;
+                });
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  color: _page == 0 ? Colors.black : Colors.transparent,
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(50),
+                  ),
+                ),
+                padding: const EdgeInsets.all(10.0),
+                child: Icon(
+                  LineIcons.home,
+                  size: _page == 0 ? 26 : 24,
+                  color: _page == 0 ? ColorPalette['nav_bar'] : Colors.black,
+                ),
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  _page = 1;
+                });
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  color: _page == 1 ? Colors.black : Colors.transparent,
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(50),
+                  ),
+                ),
+                padding: const EdgeInsets.all(10.0),
+                child: Icon(
+                  LineIcons.phone,
+                  size: _page == 1 ? 26 : 24,
+                  color: _page == 1 ? ColorPalette['nav_bar'] : Colors.black,
+                ),
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  _page = 2;
+                });
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  color: _page == 2 ? Colors.black : Colors.transparent,
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(50),
+                  ),
+                ),
+                padding: const EdgeInsets.all(10.0),
+                child: Icon(
+                  LineIcons.search,
+                  size: _page == 2 ? 26 : 24,
+                  color: _page == 2 ? ColorPalette['nav_bar'] : Colors.black,
+                ),
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  _page = 3;
+                });
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  color: _page == 4 ? Colors.black : Colors.transparent,
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(50),
+                  ),
+                ),
+                padding: const EdgeInsets.all(10.0),
+                child: Icon(
+                  Ionicons.person_add_outline,
+                  size: _page == 3 ? 26 : 24,
+                  color: _page == 3 ? ColorPalette['nav_bar'] : Colors.black,
+                ),
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  _page = 4;
+                });
+                Navigator.of(context).pushReplacement(PageRouteBuilder(
+                  transitionDuration: Duration(milliseconds: 400),
+                  pageBuilder: (context, animation1, animation2) {
+                    return MyProfile(
+                      selectedIndx: _page,
+                    );
+                  }));
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  color: _page == 4 ? Colors.black : Colors.transparent,
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(50),
+                  ),
+                ),
+                padding: const EdgeInsets.all(10.0),
+                child: Icon(
+                  LineIcons.user,
+                  size: _page == 4 ? 26 : 24,
+                  color: _page == 4 ? ColorPalette['nav_bar'] : Colors.black,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }

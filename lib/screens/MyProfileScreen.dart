@@ -1,3 +1,4 @@
+import 'package:chatnest/Helpers/HelperWidgets.dart';
 import 'package:chatnest/Helpers/colorpanel.dart';
 import 'package:chatnest/screens/HomeScreen.dart';
 import 'package:chatnest/screens/SearchScreen.dart';
@@ -52,7 +53,7 @@ class _MyProfileState extends State<MyProfile> {
   void initState() {
     super.initState();
     // _page = widget.selectedIndx;
-    _page = widget.selectedIndx is Null ? 3 : widget.selectedIndx;
+    _page = widget.selectedIndx is Null ? 4 : widget.selectedIndx;
   }
 
   // @override
@@ -64,92 +65,97 @@ class _MyProfileState extends State<MyProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: CurvedNavigationBar(
-        key: _bottomNavigationKey,
-        index: _page,
-        height: 60.0,
-        items: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: Icon(
-              LineIcons.home,
-              size: _page == 0 ? 33 : 30,
-              // color: _page == 0 ? WhitePalette['white_4'] : Colors.black,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: Icon(
-              LineIcons.search,
-              size: _page == 1 ? 33 : 30,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: Icon(
-              Ionicons.person_add_outline,
-              size: _page == 2 ? 33 : 30,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: Icon(
-              LineIcons.user,
-              size: _page == 3 ? 33 : 30,
-            ),
-          ),
-        ],
-        color: ColorPalette['primary'].withOpacity(0.67),
-        buttonBackgroundColor: ColorPalette['primary'].withOpacity(0.67),
-        backgroundColor: WhitePalette['white_4'],
-        animationCurve: Curves.easeInOut,
-        animationDuration: Duration(milliseconds: 400),
-        onTap: (index) {
-          switch (index) {
-            case 0:
-              Navigator.of(context).pushReplacement(PageRouteBuilder(
-                  transitionDuration: Duration(milliseconds: 400),
-                  pageBuilder: (context, animation1, animation2) {
-                    return HomeScreen(
-                      selectedIndx: index,
-                    );
-                  }));
-              break;
-            case 1:
-              Navigator.of(context).pushReplacement(PageRouteBuilder(
-                  transitionDuration: Duration(milliseconds: 400),
-                  pageBuilder: (context, animation1, animation2) {
-                    return SearchScreen(
-                      selectedIndx: index,
-                    );
-                  }));
-              break;
-            case 2:
-              Navigator.of(context).pushReplacement(PageRouteBuilder(
-                  transitionDuration: Duration(milliseconds: 400),
-                  pageBuilder: (context, animation1, animation2) {
-                    return SearchScreen(
-                      selectedIndx: index,
-                    );
-                  }));
-              break;
-            case 3:
-              Navigator.of(context).pushReplacement(PageRouteBuilder(
-                  transitionDuration: Duration(milliseconds: 400),
-                  pageBuilder: (context, animation1, animation2) {
-                    return MyProfile(
-                      selectedIndx: index,
-                    );
-                  }));
-              break;
-            default:
-          }
-          setState(() {
-            _page = index;
-          });
-        },
-        letIndexChange: (index) => true,
+      // bottomNavigationBar: CurvedNavigationBar(
+      //   key: _bottomNavigationKey,
+      //   index: _page,
+      //   height: 60.0,
+      //   items: <Widget>[
+      //     Padding(
+      //       padding: const EdgeInsets.all(4.0),
+      //       child: Icon(
+      //         LineIcons.home,
+      //         size: _page == 0 ? 33 : 30,
+      //         // color: _page == 0 ? WhitePalette['white_4'] : Colors.black,
+      //       ),
+      //     ),
+      //     Padding(
+      //       padding: const EdgeInsets.all(4.0),
+      //       child: Icon(
+      //         LineIcons.search,
+      //         size: _page == 1 ? 33 : 30,
+      //       ),
+      //     ),
+      //     Padding(
+      //       padding: const EdgeInsets.all(4.0),
+      //       child: Icon(
+      //         Ionicons.person_add_outline,
+      //         size: _page == 2 ? 33 : 30,
+      //       ),
+      //     ),
+      //     Padding(
+      //       padding: const EdgeInsets.all(4.0),
+      //       child: Icon(
+      //         LineIcons.user,
+      //         size: _page == 3 ? 33 : 30,
+      //       ),
+      //     ),
+      //   ],
+      //   color: ColorPalette['primary'].withOpacity(0.67),
+      //   buttonBackgroundColor: ColorPalette['primary'].withOpacity(0.67),
+      //   backgroundColor: WhitePalette['white_4'],
+      //   animationCurve: Curves.easeInOut,
+      //   animationDuration: Duration(milliseconds: 400),
+      //   onTap: (index) {
+      //     switch (index) {
+      //       case 0:
+      //         Navigator.of(context).pushReplacement(PageRouteBuilder(
+      //             transitionDuration: Duration(milliseconds: 400),
+      //             pageBuilder: (context, animation1, animation2) {
+      //               return HomeScreen(
+      //                 selectedIndx: index,
+      //               );
+      //             }));
+      //         break;
+      //       case 1:
+      //         Navigator.of(context).pushReplacement(PageRouteBuilder(
+      //             transitionDuration: Duration(milliseconds: 400),
+      //             pageBuilder: (context, animation1, animation2) {
+      //               return SearchScreen(
+      //                 selectedIndx: index,
+      //               );
+      //             }));
+      //         break;
+      //       case 2:
+      //         Navigator.of(context).pushReplacement(PageRouteBuilder(
+      //             transitionDuration: Duration(milliseconds: 400),
+      //             pageBuilder: (context, animation1, animation2) {
+      //               return SearchScreen(
+      //                 selectedIndx: index,
+      //               );
+      //             }));
+      //         break;
+      //       case 3:
+      //         Navigator.of(context).pushReplacement(PageRouteBuilder(
+      //             transitionDuration: Duration(milliseconds: 400),
+      //             pageBuilder: (context, animation1, animation2) {
+      //               return MyProfile(
+      //                 selectedIndx: index,
+      //               );
+      //             }));
+      //         break;
+      //       default:
+      //     }
+      //     setState(() {
+      //       _page = index;
+      //     });
+      //   },
+      //   letIndexChange: (index) => true,
+      // ),
+
+bottomNavigationBar: BottomNavigator(
+        selectedIndx: _page,
       ),
+
       // bottomNavigationBar: Container(
       //   decoration: BoxDecoration(
       //     color: Colors.white,

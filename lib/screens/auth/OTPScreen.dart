@@ -56,9 +56,9 @@ class _OTPScreenState extends State<OTPScreen> {
         });
       },
       verificationFailed: (FirebaseAuthException error) {
-        print('----------');
+        print('----------error----------');
         print(error.message);
-        print('==========');
+        print('==========error==========');
       },
       codeSent: (String verificationId, int resendToken) {
         print('----------sent----------');
@@ -164,12 +164,17 @@ class _OTPScreenState extends State<OTPScreen> {
 
                       // ConfirmationResult confirmationResult =
                       //     await auth.signInWithPhoneNumber(
-                      //         widget.phoneNumber,
-                      //         RecaptchaVerifier(
-                      //           container: 'recaptcha',
-                      //           size: RecaptchaVerifierSize.compact,
-                      //           theme: RecaptchaVerifierTheme.light,
-                      //         ));
+                      //   widget.phoneNumber,
+                      //   RecaptchaVerifier(
+                      //     onSuccess: () => print('reCAPTCHA Completed!'),
+                      //     onError: (FirebaseAuthException error) =>
+                      //         print(error),
+                      //     onExpired: () => print('reCAPTCHA Expired!'),
+                      //     container: 'recaptcha',
+                      //     size: RecaptchaVerifierSize.compact,
+                      //     theme: RecaptchaVerifierTheme.dark,
+                      //   ),
+                      // );
                       // UserCredential userCredential =
                       //     await confirmationResult.confirm(pin).then((value) {
                       //   if (value != null) {

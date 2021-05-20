@@ -33,7 +33,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   void initState() {
-    _page = widget.selectedIndx is Null ? 1 : widget.selectedIndx;
+    _page = widget.selectedIndx is Null ? 2 : widget.selectedIndx;
     super.initState();
   }
 
