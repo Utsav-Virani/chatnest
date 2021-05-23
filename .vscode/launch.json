@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "chatnest",
+            "name": "chatNest",
             "request": "launch",
             "type": "dart"
         }

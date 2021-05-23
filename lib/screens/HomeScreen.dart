@@ -1,4 +1,6 @@
+import 'package:adobe_xd/adobe_xd.dart';
 import 'package:chatnest/Helpers/HelperWidgets.dart';
+import 'package:chatnest/Helpers/XDBottomNavBar.dart';
 import 'package:chatnest/Helpers/colorpanel.dart';
 import 'package:chatnest/screens/ChatScreen.dart';
 import 'package:chatnest/screens/MyProfileScreen.dart';
@@ -6,8 +8,10 @@ import 'package:chatnest/screens/SearchScreen.dart';
 import 'package:chatnest/screens/UserProfileCard.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:fab_circular_menu/fab_circular_menu.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
@@ -131,386 +135,369 @@ class _HomeScreenState extends State<HomeScreen> {
   //   ),
   // ];
 
+  void _showSnackBar(BuildContext context, String message) {
+    Scaffold.of(context).showSnackBar(SnackBar(
+      content: Text(message),
+      duration: const Duration(milliseconds: 1000),
+    ));
+  }
+
+  bool isSearchVisible = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: WhitePalette['white_4'],
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(70),
-        child: AppBar(
-          // backgroundColor: Colors.amber,
-          iconTheme: IconThemeData(
-            // color: WhitePalette['white_4'],
-            color: ColorPalette['primary'],
-            // size: 35,
-          ),
-          centerTitle: true,
-          backgroundColor: WhitePalette['white_4'],
-          // backgroundColor: ColorPalette['primary'].withOpacity(0.9),
-          title: Text(
-            "CHATNEST",
-            style: TextStyle(
-              letterSpacing: 3,
-              fontSize: 30,
-              // color: WhitePalette['white_4'],
-              color: ColorPalette['primary'],
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          elevation: 0.0,
-          // actions: [
-          //   IconButton(
-          //     icon: Icon(
-          //       Icons.person_add_alt_1_outlined,
-          //     ),
-          //     onPressed: () {
-          //       Navigator.of(context).push(
-          //         // MaterialPageRoute(
-          //         //   builder: (context) {
-          //         //     return SearchScreen();
-          //         //   },
-          //         // ),
-          //         PageTransition(
-          //           type: PageTransitionType.rightToLeft,
-          //           child: SearchScreen(),
-          //         ),
-          //       );
-          //     },
-          //   ),
-          // ],
-        ),
-      ),
-      // drawer: homeScreenDrawer(context),
-
-      bottomNavigationBar: BottomNavigator(
-        selectedIndx: _page,
-      ),
-
-      // bottomNavigationBar: Container(
-      //   // child: ,
-      //   // color: Colors.blue,
-      //   height: MediaQuery.of(context).size.height * 0.1,
-      //   child: Container(
-      //     decoration: BoxDecoration(
-      //       color: ColorPalette['nav_bar'],
-      //       // color: Color(0xFFd9a072),
-      //       borderRadius: BorderRadius.only(
-      //         // topLeft: Radius.circular(100),
-      //         topLeft: Radius.elliptical(140, 35),
-      //         topRight: Radius.elliptical(140, 35),
-      //       ),
+      // appBar: PreferredSize(
+      //   preferredSize: Size.fromHeight(70),
+      //   child: AppBar(
+      //     // backgroundColor: Colors.amber,
+      //     iconTheme: IconThemeData(
+      //       // color: WhitePalette['white_4'],
+      //       color: ColorPalette['primary'],
+      //       // size: 35,
       //     ),
-      //     child: Row(
-      //       crossAxisAlignment: CrossAxisAlignment.center,
-      //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      //       children: [
-      //         GestureDetector(
-      //           onTap: () {
-      //             setState(() {
-      //               _page = 0;
-      //             });
-      //           },
-      //           child: Container(
-      //             decoration: BoxDecoration(
-      //               color: _page == 0 ? Colors.black : Colors.transparent,
-      //               borderRadius: BorderRadius.all(
-      //                 Radius.circular(50),
-      //               ),
-      //             ),
-      //             padding: const EdgeInsets.all(10.0),
-      //             child: Icon(
-      //               LineIcons.home,
-      //               size: 30,
-      //               color: _page == 0 ? ColorPalette['nav_bar'] : Colors.black,
-      //             ),
-      //           ),
-      //         ),
-      //         GestureDetector(
-      //           onTap: () {
-      //             setState(() {
-      //               _page = 1;
-      //             });
-      //           },
-      //           child: Container(
-      //             decoration: BoxDecoration(
-      //               color: _page == 1 ? Colors.black : Colors.transparent,
-      //               borderRadius: BorderRadius.all(
-      //                 Radius.circular(50),
-      //               ),
-      //             ),
-      //             padding: const EdgeInsets.all(10.0),
-      //             child: Icon(
-      //               LineIcons.phone,
-      //               size: 30,
-      //               color: _page == 1 ? ColorPalette['nav_bar'] : Colors.black,
-      //             ),
-      //           ),
-      //         ),
-      //         GestureDetector(
-      //           onTap: () {
-      //             setState(() {
-      //               _page = 2;
-      //             });
-      //           },
-      //           child: Container(
-      //             decoration: BoxDecoration(
-      //               color: _page == 2 ? Colors.black : Colors.transparent,
-      //               borderRadius: BorderRadius.all(
-      //                 Radius.circular(50),
-      //               ),
-      //             ),
-      //             padding: const EdgeInsets.all(10.0),
-      //             child: Icon(
-      //               LineIcons.search,
-      //               size: 30,
-      //               color: _page == 2 ? ColorPalette['nav_bar'] : Colors.black,
-      //             ),
-      //           ),
-      //         ),
-      //         GestureDetector(
-      //           onTap: () {
-      //             setState(() {
-      //               _page = 3;
-      //             });
-      //           },
-      //           child: Container(
-      //             decoration: BoxDecoration(
-      //               color: _page == 3 ? Colors.black : Colors.transparent,
-      //               borderRadius: BorderRadius.all(
-      //                 Radius.circular(50),
-      //               ),
-      //             ),
-      //             padding: const EdgeInsets.all(10.0),
-      //             child: Icon(
-      //               Ionicons.person_add_outline,
-      //               size: 30,
-      //               color: _page == 3 ? ColorPalette['nav_bar'] : Colors.black,
-      //             ),
-      //           ),
-      //         ),
-      //         GestureDetector(
-      //           onTap: () {
-      //             setState(() {
-      //               _page = 4;
-      //             });
-      //           },
-      //           child: Container(
-      //             decoration: BoxDecoration(
-      //               color: _page == 4 ? Colors.black : Colors.transparent,
-      //               borderRadius: BorderRadius.all(
-      //                 Radius.circular(50),
-      //               ),
-      //             ),
-      //             padding: const EdgeInsets.all(10.0),
-      //             child: Icon(
-      //               LineIcons.user,
-      //               size: 30,
-      //               color: _page == 4 ? ColorPalette['nav_bar'] : Colors.black,
-      //             ),
-      //           ),
-      //         ),
-      //       ],
-      //     ),
+      //     centerTitle: true,
+      //     backgroundColor: WhitePalette['white_4'],
+      //     // backgroundColor: ColorPalette['primary'].withOpacity(0.9),
+      //     // title: Text(
+      //     //   "CHATNEST",
+      //     //   style: TextStyle(
+      //     //     letterSpacing: 3,
+      //     //     fontSize: 30,
+      //     //     // color: WhitePalette['white_4'],
+      //     //     color: ColorPalette['primary'],
+      //     //     fontWeight: FontWeight.bold,
+      //     //   ),
+      //     // ),
+      //     elevation: 0.0,
+      //     // actions: [
+      //     //   IconButton(
+      //     //     icon: Icon(
+      //     //       Icons.person_add_alt_1_outlined,
+      //     //     ),
+      //     //     onPressed: () {
+      //     //       Navigator.of(context).push(
+      //     //         // MaterialPageRoute(
+      //     //         //   builder: (context) {
+      //     //         //     return SearchScreen();
+      //     //         //   },
+      //     //         // ),
+      //     //         PageTransition(
+      //     //           type: PageTransitionType.rightToLeft,
+      //     //           child: SearchScreen(),
+      //     //         ),
+      //     //       );
+      //     //     },
+      //     //   ),
+      //     // ],
       //   ),
       // ),
+      // drawer: homeScreenDrawer(context),
 
-      // bottomNavigationBar: CurvedNavigationBar(
-      //   key: _bottomNavigationKey,
-      //   index: _page,
-      //   height: 60.0,
-      //   items: <Widget>[
-      //     Padding(
-      //       padding: const EdgeInsets.all(4.0),
+      //! BOTTOM NAV
+      // bottomNavigationBar: BottomNavigator(
+      //   selectedIndx: _page,
+      // ),
+
+      // bottomNavigationBar: Container(
+      //   height: 200,
+      //   child: XDBottomNavBar(),
+      // ),
+
+      // floatingActionButton: FabCircularMenu(
+      //   alignment: Alignment.bottomRight,
+      //   // ringColor: Colors.white.withAlpha(25),
+      //   ringDiameter: 420.0,
+      //   ringWidth: 100.0,
+      //   fabSize: 70.0,
+      //   fabElevation: 8.0,
+      //   fabOpenIcon: SvgPicture.asset(
+      //     "assets/svgs/ChatNest_outline.svg",
+      //     height: 30,
+      //   ),
+      //   fabCloseIcon: Icon(
+      //     Icons.close,
+      //   ),
+      //   // fabColor: Colors.transparent,
+      //   fabColor: ColorPalette['nav_bar'],
+      //   children: <Widget>[
+      //     RawMaterialButton(
+      //       onPressed: () {},
+      //       shape: CircleBorder(),
+      //       padding: const EdgeInsets.all(24.0),
       //       child: Icon(
       //         LineIcons.home,
-      //         size: _page == 0 ? 33 : 30,
-      //         // color: _page == 0 ? WhitePalette['white_4'] : Colors.black,
+      //         size: _page == 1 ? 26 : 24,
+      //         color: _page == 1 ? ColorPalette['nav_bar'] : Colors.black,
       //       ),
       //     ),
-      //     Padding(
-      //       padding: const EdgeInsets.all(4.0),
+      //     RawMaterialButton(
+      //       onPressed: () {},
+      //       shape: CircleBorder(),
+      //       padding: const EdgeInsets.all(24.0),
+      //       child: Icon(
+      //         LineIcons.phone,
+      //         size: _page == 1 ? 26 : 24,
+      //         color: _page == 1 ? ColorPalette['nav_bar'] : Colors.black,
+      //       ),
+      //     ),
+      //     RawMaterialButton(
+      //       onPressed: () {},
+      //       shape: CircleBorder(),
+      //       padding: const EdgeInsets.all(24.0),
       //       child: Icon(
       //         LineIcons.search,
-      //         size: _page == 1 ? 33 : 30,
+      //         size: _page == 2 ? 26 : 24,
+      //         color: _page == 2 ? ColorPalette['nav_bar'] : Colors.black,
       //       ),
       //     ),
-      //     Padding(
-      //       padding: const EdgeInsets.all(4.0),
+      //     RawMaterialButton(
+      //       onPressed: () {},
+      //       shape: CircleBorder(),
+      //       padding: const EdgeInsets.all(24.0),
       //       child: Icon(
       //         Ionicons.person_add_outline,
-      //         size: _page == 2 ? 33 : 30,
+      //         size: _page == 3 ? 26 : 24,
+      //         color: _page == 3 ? ColorPalette['nav_bar'] : Colors.black,
       //       ),
       //     ),
-      //     Padding(
-      //       padding: const EdgeInsets.all(4.0),
+      //     RawMaterialButton(
+      //       onPressed: () {},
+      //       shape: CircleBorder(),
+      //       padding: const EdgeInsets.all(24.0),
       //       child: Icon(
       //         LineIcons.user,
-      //         size: _page == 3 ? 33 : 30,
+      //         size: _page == 4 ? 26 : 24,
+      //         color: _page == 4 ? ColorPalette['nav_bar'] : Colors.black,
       //       ),
       //     ),
       //   ],
-      //   color: ColorPalette['primary'].withOpacity(0.67),
-      //   buttonBackgroundColor: ColorPalette['primary'].withOpacity(0.67),
-      //   backgroundColor: WhitePalette['white_4'],
-      //   animationCurve: Curves.easeInOut,
-      //   animationDuration: Duration(milliseconds: 400),
-      //   onTap: (index) {
-      //     switch (index) {
-      //       case 0:
-      //         Navigator.of(context).pushReplacement(PageRouteBuilder(
-      //             transitionDuration: Duration(milliseconds: 400),
-      //             pageBuilder: (context, animation1, animation2) {
-      //               return HomeScreen(
-      //                 selectedIndx: index,
-      //               );
-      //             }));
-      //         break;
-      //       case 1:
-      //         Navigator.of(context).pushReplacement(PageRouteBuilder(
-      //             transitionDuration: Duration(milliseconds: 400),
-      //             pageBuilder: (context, animation1, animation2) {
-      //               return SearchScreen(
-      //                 selectedIndx: index,
-      //               );
-      //             }));
-      //         break;
-      //       case 2:
-      //         Navigator.of(context).pushReplacement(PageRouteBuilder(
-      //             transitionDuration: Duration(milliseconds: 400),
-      //             pageBuilder: (context, animation1, animation2) {
-      //               return SearchScreen(
-      //                 selectedIndx: index,
-      //               );
-      //             }));
-      //         break;
-      //       case 3:
-      //         Navigator.of(context).pushReplacement(PageRouteBuilder(
-      //             transitionDuration: Duration(milliseconds: 400),
-      //             pageBuilder: (context, animation1, animation2) {
-      //               return MyProfile(
-      //                 selectedIndx: index,
-      //               );
-      //             }));
-      //         break;
-      //       default:
-      //     }
-      //     setState(() {
-      //       _page = index;
-      //     });
-      //   },
-      //   letIndexChange: (index) => true,
       // ),
 
-      // bottomNavigationBar: Container(
-      //   decoration: BoxDecoration(
-      //     color: Colors.white,
-      //     boxShadow: [
-      //       BoxShadow(
-      //         blurRadius: 20,
-      //         color: Colors.black.withOpacity(.1),
-      //       )
-      //     ],
-      //   ),
-      //   child: SafeArea(
-      //     child: Padding(
-      //       padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),
-      //       child: GNav(
-      //         rippleColor: Colors.grey[300],
-      //         hoverColor: Colors.grey[100],
-      //         gap: 0,
-      //         activeColor: Colors.black,
-      //         iconSize: 24,
-      //         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-      //         duration: Duration(milliseconds: 500),
-      //         tabBackgroundColor: ColorPalette['primary'].withOpacity(0.67),
-      //         color: Colors.black,
-      //         // textStyle: TextStyle(),
-      //         // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      //         tabs: [
-      //           GButton(
-      //             icon: LineIcons.home,
-      //             // iconSize: 30,
-      //             // text: '',
-      //             // text: 'Home',
-      //           ),
-      //           GButton(
-      //             icon: LineIcons.search,
-      //             // text: '',
-      //             // text: 'Search',
-      //             onPressed: () {
-      //               Navigator.of(context).pushReplacement(
-      //                 PageRouteBuilder(
-      //                   transitionDuration: Duration(seconds: 0),
-      //                   pageBuilder: (context, animation1, animation2) =>
-      //                       SearchScreen(
-      //                     selectedIndx: _selectedIndex,
-      //                   ),
-      //                 ),
-      //               );
-      //             },
-      //           ),
-      //           GButton(
-      //             icon: Ionicons.person_add_outline,
-      //             // text: '',
-      //             // text: 'Request',
-      //           ),
-      //           GButton(
-      //             icon: LineIcons.user,
-      //             // text: '',
-      //             // text: 'Profile',
-      //             onPressed: () {
-      //               Navigator.of(context).pushReplacement(
-      //                 PageRouteBuilder(
-      //                   transitionDuration: Duration(seconds: 0),
-      //                   pageBuilder: (context, animation1, animation2) =>
-      //                       MyProfile(
-      //                     selectedIndx: _selectedIndex,
-      //                   ),
-      //                 ),
-      //               );
-      //             },
-      //           ),
-      //         ],
-      //         selectedIndex: _selectedIndex,
-      //         onTabChange: (index) {
-      //           setState(() {
-      //             _selectedIndex = index;
-      //           });
-      //         },
-      //       ),
-      //     ),
-      //   ),
-      // ),
-      body: Container(
-        child: Column(
-          children: [
-            Container(
-              height: 30,
-              decoration: BoxDecoration(
-                // color: ColorPalette['primary'],
-                color: WhitePalette['white_4'],
+      body: SafeArea(
+        child: Container(
+          margin: EdgeInsets.only(
+            top: 20,
+          ),
+          child: Column(
+            children: [
+              Container(
+                // color: Colors.black12,
+                height: 74,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: !isSearchVisible
+                      ? MainAxisAlignment.spaceAround
+                      : MainAxisAlignment.spaceEvenly,
+                  children: [
+                    !isSearchVisible
+                        ? Text.rich(
+                            TextSpan(
+                              style: TextStyle(
+                                fontFamily: 'SegoeScript',
+                                fontSize: 60,
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 4,
+                                color: const Color(0xffff7847),
+                                shadows: [
+                                  Shadow(
+                                    color: const Color(0x33121212),
+                                    offset: Offset(3, 3),
+                                    blurRadius: 6,
+                                  )
+                                ],
+                              ),
+                              children: [
+                                TextSpan(
+                                  text: 'C',
+                                ),
+                                TextSpan(
+                                  text: 'hat',
+                                  style: TextStyle(
+                                    fontSize: 45,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: 'N',
+                                  style: TextStyle(
+                                    fontSize: 52,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: 'est',
+                                  style: TextStyle(
+                                    fontSize: 45,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            textHeightBehavior: TextHeightBehavior(
+                                applyHeightToFirstAscent: false),
+                            textAlign: TextAlign.center,
+                          )
+                        : Container(
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      isSearchVisible = !isSearchVisible;
+                                    });
+                                  },
+                                  child: Container(
+                                    height: 44,
+                                    width: 50,
+                                    padding: EdgeInsets.all(10.0),
+                                    child: SvgPicture.asset(
+                                        "assets/svgs/backButton.svg"),
+                                  ),
+                                ),
+                                Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.6,
+                                  height: 45,
+                                  child: TextFormField(
+                                    // controller: _searchTextController,
+                                    onChanged: (val) {
+                                      // _searchUser(val);
+                                    },
+                                    style: TextStyle(
+                                      color: Color(0xff171c26),
+                                    ),
+                                    textAlignVertical: TextAlignVertical.bottom,
+                                    autovalidateMode: AutovalidateMode.disabled,
+                                    keyboardType: TextInputType.emailAddress,
+                                    textCapitalization:
+                                        TextCapitalization.sentences,
+                                    decoration: InputDecoration(
+                                      hintText: 'Search',
+                                      prefix: Padding(
+                                        padding: EdgeInsets.only(
+                                            left: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.02),
+                                      ),
+                                      // hintStyle: TextStyle(
+                                      //   color: ColorPalette['white_1'],
+                                      // ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Color(0xff171c26),
+                                          width: 1,
+                                        ),
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(50),
+                                        ),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: Color(0xff171c26),
+                                          width: 1,
+                                        ),
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(50),
+                                        ),
+                                      ),
+                                      focusColor: Color(0xff171c26),
+                                    ),
+                                    cursorColor: Color(0xff171c26),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          isSearchVisible = !isSearchVisible;
+                        });
+                      },
+                      child: Container(
+                        height: 50,
+                        width: 50,
+                        padding: EdgeInsets.all(10.0),
+                        child: Stack(
+                          children: <Widget>[
+                            Pinned.fromPins(
+                              Pin(startFraction: 0.0, endFraction: 0.0),
+                              Pin(startFraction: 0.0, endFraction: 0.0),
+                              child:
+                                  // Adobe XD layer: 'Search' (group)
+                                  Stack(
+                                children: <Widget>[
+                                  Pinned.fromPins(
+                                    Pin(startFraction: 0.0, endFraction: 0.0),
+                                    Pin(startFraction: 0.0, endFraction: 0.0),
+                                    child:
+                                        // Adobe XD layer: 'Combined Shape' (shape)
+                                        SvgPicture.string(
+                                      '<svg viewBox="0.0 0.0 29.3 30.0" ><path transform="translate(0.0, 0.0)" d="M 27.48523330688477 29.68337440490723 L 22.8973388671875 25.10836791992188 C 20.48419380187988 27.04070281982422 17.42420959472656 28.19796752929688 14.09963512420654 28.19796752929688 C 6.324704647064209 28.19796752929688 0 21.87326240539551 0 14.09833145141602 C 0 6.324704647064209 6.324704647064209 0 14.09963512420654 0 C 21.87326240539551 0 28.19796752929688 6.324704647064209 28.19796752929688 14.09833145141602 C 28.19796752929688 17.76703262329102 26.79007911682129 21.11238861083984 24.48589515686035 23.62316703796387 L 29.0201530456543 28.14584922790527 C 29.44362640380859 28.5693187713623 29.44492530822754 29.25599479675293 29.02145576477051 29.6807689666748 C 28.80906867980957 29.89445877075195 28.53022956848145 30 28.25269317626953 30 C 27.97515678405762 30 27.6976203918457 29.89445877075195 27.48523330688477 29.68337440490723 Z M 2.172081470489502 14.09833145141602 C 2.172081470489502 20.67581748962402 7.522150993347168 26.02588653564453 14.09963512420654 26.02588653564453 C 20.67581748962402 26.02588653564453 26.02588653564453 20.67581748962402 26.02588653564453 14.09833145141602 C 26.02588653564453 7.522150993347168 20.67581748962402 2.172081470489502 14.09963512420654 2.172081470489502 C 7.522150993347168 2.172081470489502 2.172081470489502 7.522150993347168 2.172081470489502 14.09833145141602 Z" fill="#574d51" stroke="none" stroke-width="1" stroke-miterlimit="10" stroke-linecap="butt" /></svg>',
+                                      allowDrawingOutsideViewBox: true,
+                                      fit: BoxFit.fill,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  // Text(
-                  //   "Chat",
-                  //   style: TextStyle(
-                  //     fontSize: 18,
-                  //     color: ColorPalette['white_3'],
-                  //   ),
-                  // ),
-                ],
+              // Container(
+              //   height: 30,
+              //   decoration: BoxDecoration(
+              //     // color: ColorPalette['primary'],
+              //     color: WhitePalette['white_4'],
+              //   ),
+              //   child: Row(
+              //     crossAxisAlignment: CrossAxisAlignment.center,
+              //     mainAxisAlignment: MainAxisAlignment.center,
+              //     children: [
+              //       // Text(
+              //       //   "Chat",
+              //       //   style: TextStyle(
+              //       //     fontSize: 18,
+              //       //     color: ColorPalette['white_3'],
+              //       //   ),
+              //       // ),
+              //     ],
+              //   ),
+              // ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.03,
               ),
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.02,
-            ),
-            Expanded(
-              child: ChatRoomList(),
-            ),
-          ],
+              Expanded(
+                child: Stack(
+                  alignment: Alignment.bottomCenter,
+                  children: [
+                    Positioned.fill(
+                      bottom: 80,
+                      child: ChatRoomList(),
+                    ),
+                    Container(
+                      // alignment: Alignment.bottomCenter,
+                      height: 200,
+                      child: XDBottomNavBar(),
+                    )
+                  ],
+                ),
+              ),
+              // Expanded(
+              //   child: ChatRoomList(),
+              // ),
+              // Container(
+              //   height: 200,
+              //   child: XDBottomNavBar(),
+              // )
+            ],
+          ),
         ),
       ),
     );
@@ -527,7 +514,7 @@ class ChatRoomListTile extends StatelessWidget {
     // print(_userName);
     return Container(
       margin: EdgeInsets.only(bottom: 15),
-      height: 90,
+      height: 70,
       padding: EdgeInsets.symmetric(horizontal: 10),
       child: GestureDetector(
         onTap: () {
@@ -545,7 +532,7 @@ class ChatRoomListTile extends StatelessWidget {
         child: Container(
           alignment: Alignment.centerLeft,
           decoration: BoxDecoration(
-              color: ColorPalette['primary'].withOpacity(0.15),
+              // color: ColorPalette['primary'].withOpacity(0.15),
               borderRadius: BorderRadius.all(
                 Radius.circular(30),
               ),

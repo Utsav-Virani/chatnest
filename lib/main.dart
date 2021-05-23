@@ -1,5 +1,6 @@
 import 'package:chatnest/Helpers/colorpanel.dart';
 import 'package:chatnest/screens/HomeScreen.dart';
+import 'package:chatnest/screens/SearchScreen.dart';
 import 'package:chatnest/screens/WelcomeScreen.dart';
 import 'package:chatnest/screens/auth/CredentialsScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
           if (userSnapsort.hasData) {
             if (FirebaseAuth.instance.currentUser.email != null) {
               return HomeScreen();
+              // return SearchScreen();
             } else {
               return CredentialsScreen();
             }

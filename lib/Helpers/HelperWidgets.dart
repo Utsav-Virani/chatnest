@@ -1,9 +1,12 @@
 import 'package:chatnest/Helpers/colorpanel.dart';
+import 'package:chatnest/screens/HomeScreen.dart';
 import 'package:chatnest/screens/MyProfileScreen.dart';
+import 'package:chatnest/screens/SearchScreen.dart';
 import 'package:chatnest/screens/WelcomeScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:line_icons/line_icons.dart';
 
@@ -167,6 +170,15 @@ class _BottomNavigatorState extends State<BottomNavigator> {
                 setState(() {
                   _page = 0;
                 });
+                Navigator.of(context).pushReplacement(
+                  PageRouteBuilder(
+                    transitionDuration: Duration(seconds: 0),
+                    pageBuilder: (context, animation1, animation2) =>
+                        HomeScreen(
+                      selectedIndx: _page,
+                    ),
+                  ),
+                );
               },
               child: Container(
                 decoration: BoxDecoration(
@@ -175,7 +187,7 @@ class _BottomNavigatorState extends State<BottomNavigator> {
                     Radius.circular(50),
                   ),
                 ),
-                padding: const EdgeInsets.all(10.0),
+                padding: const EdgeInsets.all(12.0),
                 child: Icon(
                   LineIcons.home,
                   size: _page == 0 ? 26 : 24,
@@ -188,6 +200,15 @@ class _BottomNavigatorState extends State<BottomNavigator> {
                 setState(() {
                   _page = 1;
                 });
+                // Navigator.of(context).pushReplacement(
+                //   PageRouteBuilder(
+                //     transitionDuration: Duration(seconds: 0),
+                //     pageBuilder: (context, animation1, animation2) =>
+                //         CallScreen(
+                //       selectedIndx: _page,
+                //     ),
+                //   ),
+                // );
               },
               child: Container(
                 decoration: BoxDecoration(
@@ -196,7 +217,7 @@ class _BottomNavigatorState extends State<BottomNavigator> {
                     Radius.circular(50),
                   ),
                 ),
-                padding: const EdgeInsets.all(10.0),
+                padding: const EdgeInsets.all(12.0),
                 child: Icon(
                   LineIcons.phone,
                   size: _page == 1 ? 26 : 24,
@@ -209,6 +230,15 @@ class _BottomNavigatorState extends State<BottomNavigator> {
                 setState(() {
                   _page = 2;
                 });
+                Navigator.of(context).pushReplacement(
+                  PageRouteBuilder(
+                    transitionDuration: Duration(seconds: 0),
+                    pageBuilder: (context, animation1, animation2) =>
+                        SearchScreen(
+                      selectedIndx: _page,
+                    ),
+                  ),
+                );
               },
               child: Container(
                 decoration: BoxDecoration(
@@ -217,7 +247,7 @@ class _BottomNavigatorState extends State<BottomNavigator> {
                     Radius.circular(50),
                   ),
                 ),
-                padding: const EdgeInsets.all(10.0),
+                padding: const EdgeInsets.all(12.0),
                 child: Icon(
                   LineIcons.search,
                   size: _page == 2 ? 26 : 24,
@@ -228,17 +258,52 @@ class _BottomNavigatorState extends State<BottomNavigator> {
             GestureDetector(
               onTap: () {
                 setState(() {
-                  _page = 3;
+                  // _page = 2;
                 });
+                // Navigator.of(context).pushReplacement(
+                //   PageRouteBuilder(
+                //     transitionDuration: Duration(seconds: 0),
+                //     pageBuilder: (context, animation1, animation2) =>
+                //         SearchScreen(
+                //       selectedIndx: _page,
+                //     ),
+                //   ),
+                // );
               },
               child: Container(
                 decoration: BoxDecoration(
-                  color: _page == 4 ? Colors.black : Colors.transparent,
+                  color: _page == 2 ? Colors.black : Colors.transparent,
                   borderRadius: BorderRadius.all(
                     Radius.circular(50),
                   ),
                 ),
-                padding: const EdgeInsets.all(10.0),
+                padding: const EdgeInsets.all(12.0),
+                child: SvgPicture.asset("assets/svgs/ChatNest_outline.svg",height: 26,),
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  _page = 3;
+                });
+                // Navigator.of(context).pushReplacement(
+                //   PageRouteBuilder(
+                //     transitionDuration: Duration(seconds: 0),
+                //     pageBuilder: (context, animation1, animation2) =>
+                //         RequestScreen(
+                //       selectedIndx: _page,
+                //     ),
+                //   ),
+                // );
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  color: _page == 3 ? Colors.black : Colors.transparent,
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(50),
+                  ),
+                ),
+                padding: const EdgeInsets.all(12.0),
                 child: Icon(
                   Ionicons.person_add_outline,
                   size: _page == 3 ? 26 : 24,
@@ -251,13 +316,15 @@ class _BottomNavigatorState extends State<BottomNavigator> {
                 setState(() {
                   _page = 4;
                 });
-                Navigator.of(context).pushReplacement(PageRouteBuilder(
-                  transitionDuration: Duration(milliseconds: 400),
-                  pageBuilder: (context, animation1, animation2) {
-                    return MyProfile(
+                Navigator.of(context).pushReplacement(
+                  PageRouteBuilder(
+                    transitionDuration: Duration(seconds: 0),
+                    pageBuilder: (context, animation1, animation2) =>
+                        MyProfile(
                       selectedIndx: _page,
-                    );
-                  }));
+                    ),
+                  ),
+                );
               },
               child: Container(
                 decoration: BoxDecoration(
@@ -266,7 +333,7 @@ class _BottomNavigatorState extends State<BottomNavigator> {
                     Radius.circular(50),
                   ),
                 ),
-                padding: const EdgeInsets.all(10.0),
+                padding: const EdgeInsets.all(12.0),
                 child: Icon(
                   LineIcons.user,
                   size: _page == 4 ? 26 : 24,

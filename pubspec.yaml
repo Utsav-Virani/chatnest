@@ -44,6 +44,8 @@ dependencies:
     line_icons: ^2.0.0
     ionicons: ^0.1.2
     curved_navigation_bar: ^0.3.7
+    fab_circular_menu: ^1.0.0
+    adobe_xd: ^1.1.0+1
 
 dev_dependencies:
     flutter_test:
@@ -101,6 +103,17 @@ flutter:
         - family: OpenSans_Light
           fonts:
               - asset: assets/fonts/Open_Sans/OpenSans-Light.ttf
+    
+        - family: SegoeScript
+          fonts:
+              - asset: assets/fonts/Someone.ttf
+    
+
+        # - family: 
+        #   fonts:
+        #       - asset: 'assets/fonts/'
+    
+
     #
     # For details regarding fonts from package dependencies,
     # see https://flutter.dev/custom-fonts/#from-packages
