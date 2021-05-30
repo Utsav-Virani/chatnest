@@ -104,10 +104,25 @@ flutter:
           fonts:
               - asset: assets/fonts/Open_Sans/OpenSans-Light.ttf
     
-        - family: SegoeScript
+        - family: Montserrat
           fonts:
-              - asset: assets/fonts/Someone.ttf
-    
+              - asset: assets/fonts/Montserrat/Montserrat-Regular.ttf
+
+        - family: Ubuntu
+          fonts:
+              - asset: assets/fonts/Ubuntu-Regular.ttf
+
+        - family: OdibeeSans
+          fonts:
+              - asset: assets/fonts/OdibeeSans-Regular.ttf
+
+        # - family: 
+        #   fonts:
+        #       - asset: 
+
+        # - family: 
+        #   fonts:
+        #       - asset: 
 
         # - family: 
         #   fonts:

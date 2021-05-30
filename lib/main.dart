@@ -2,6 +2,7 @@ import 'package:chatnest/Helpers/colorpanel.dart';
 import 'package:chatnest/screens/HomeScreen.dart';
 import 'package:chatnest/screens/SearchScreen.dart';
 import 'package:chatnest/screens/WelcomeScreen.dart';
+import 'package:chatnest/screens/WelcomeScreen.dart';
 import 'package:chatnest/screens/auth/CredentialsScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -36,7 +37,9 @@ class MyApp extends StatelessWidget {
               return CredentialsScreen();
             }
           } else {
-            return WelcomeScreen();
+            return SafeArea(
+              child: WelcomeScreen(),
+            );
           }
         },
       ),

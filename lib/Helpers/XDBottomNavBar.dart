@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:adobe_xd/pinned.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -554,6 +555,7 @@ class _XDBottomNavBarState extends State<XDBottomNavBar> {
               isSettingClicked = false;
               isLogoClicked = false;
             });
+            FirebaseAuth.instance.signOut();
           },
           child: Pinned.fromPins(
             Pin(size: 46.5, end: 56.9),
