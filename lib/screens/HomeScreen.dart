@@ -518,7 +518,7 @@ class _ChatRoomListTileState extends State<ChatRoomListTile> {
     // print(userName);
     return Container(
       margin: EdgeInsets.only(bottom: 15),
-      height: 70,
+      height: 100,
       padding: EdgeInsets.symmetric(horizontal: 10),
       child: GestureDetector(
         onTap: () {
@@ -527,10 +527,15 @@ class _ChatRoomListTileState extends State<ChatRoomListTile> {
               transitionDuration: Duration(seconds: 0),
               pageBuilder: (context, animation1, animation2) => ChatScreen(
                 chatRoomId: widget.chatRoomId,
-                chatUserName: widget.userId,
+                chatUserName: _userNameController.text,
+                chatUserEmail: _emailController.text,
+                chatUserPhoneNumber: _phoneController.text,
+                chatUserProfilePhoto: _profilePhotoController.text,
+                chatUserStatus: _statusController.text,
               ),
             ),
           );
+
           // Navigator.of(context).push(
           //   MaterialPageRoute(
           //     builder: (context) {
@@ -544,9 +549,9 @@ class _ChatRoomListTileState extends State<ChatRoomListTile> {
         },
         child: Container(
           height: 100,
-          width: MediaQuery.of(context).size.width * 0.5,
+          // color: Colors.amber,
           alignment: Alignment.center,
-          margin: EdgeInsets.symmetric(horizontal: 16),
+          // margin: EdgeInsets.symmetric(horizontal: 1),
           // decoration: BoxDecoration(
           //   border: Border.all(
           //     width: 1,
@@ -557,10 +562,6 @@ class _ChatRoomListTileState extends State<ChatRoomListTile> {
           //   ),
           // ),
           child: Container(
-            // height: 90,
-            // width: 90,
-            // color: Colors.amber,
-            // margin: EdgeInsets.only(left: 16),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -612,7 +613,7 @@ class _ChatRoomListTileState extends State<ChatRoomListTile> {
                         ),
                       ),
                       Text(
-                        _phoneController.text,
+                        _statusController.text,
                         style: TextStyle(
                           fontFamily: 'Montserrat_M',
                           fontSize: 12,

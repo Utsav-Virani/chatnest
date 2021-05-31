@@ -122,7 +122,7 @@ class WelcomeScreen extends StatelessWidget {
             Pin(size: MediaQuery.of(context).size.width, middle: 0.5),
             Pin(size: 84.0, middle: 0.6449),
             child: Text(
-              'Express your feelings beyond \nthe distanceon the virtual platform.',
+              'Express your feelings beyond \nthe distance on the virtual platform.',
               style: TextStyle(
                 fontFamily: 'Ubuntu',
                 fontSize: 18,
