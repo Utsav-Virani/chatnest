@@ -549,6 +549,7 @@ class _ChatRoomListTileState extends State<ChatRoomListTile> {
         },
         child: Container(
           height: 100,
+          width: MediaQuery.of(context).size.width,
           // color: Colors.amber,
           alignment: Alignment.center,
           // margin: EdgeInsets.symmetric(horizontal: 1),

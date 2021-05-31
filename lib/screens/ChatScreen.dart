@@ -77,6 +77,8 @@ class _ChatScreenState extends State<ChatScreen> {
             // print(snapshot.data.docs[index].data()["sentBy"]);
             return MessageTile(
                 snapshot.data.docs[index].data()["message"],
+                widget.chatRoomId,
+                snapshot.data.docs[index].id,
                 snapshot.data.docs[index].data()["sentBy"] ==
                     FirebaseAuth.instance.currentUser.displayName);
           },
@@ -93,7 +95,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.chatRoomId);
+    // print(widget.chatRoomId);
     return Scaffold(
       backgroundColor: Color(0xff171c26),
       body: Container(
@@ -339,51 +341,124 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 }
 
-class MessageTile extends StatelessWidget {
+class MessageTile extends StatefulWidget {
   final String _message;
   final bool _isSendByMe;
+  final String chatroomId;
+  final String messageId;
 
-  MessageTile(this._message, this._isSendByMe);
+  MessageTile(this._message, this.chatroomId, this.messageId, this._isSendByMe);
+
+  @override
+  _MessageTileState createState() => _MessageTileState();
+}
+
+class _MessageTileState extends State<MessageTile> {
+  Widget _buildPopupDialog(BuildContext context, message) {
+    return AlertDialog(
+      title: const Text(
+        'Sure you want to delete this?',
+        style: TextStyle(
+            // color: Color(0xffbf6228),
+            // fontSize: 16,
+            fontFamily: 'Montserrat_M'),
+      ),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(message),
+        ],
+      ),
+      actions: <Widget>[
+        TextButton(
+          onPressed: () {
+            FirebaseFirestore.instance
+                .collection('chatRoom')
+                .doc(widget.chatroomId)
+                .collection("Chats")
+                .doc(widget.messageId)
+                .delete();
+            // print(widget.chatroomId);
+            // print(widget.messageId);
+            Navigator.of(context).pop();
+          },
+          child: const Text(
+            'Delete',
+            style: TextStyle(
+                color: Color(0xffbf6228),
+                fontSize: 16,
+                fontFamily: 'Montserrat_M'),
+          ),
+        ),
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: const Text(
+            'Close',
+            style: TextStyle(
+                color: Color(0xff171c26),
+                fontSize: 16,
+                fontFamily: 'Montserrat_M'),
+          ),
+        ),
+      ],
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     // print(_isSendByMe);.
     return Container(
       width: MediaQuery.of(context).size.width,
-      alignment: _isSendByMe ? Alignment.centerRight : Alignment.centerLeft,
-      child: Container(
-        margin: _isSendByMe
-            ? EdgeInsets.symmetric(vertical: 2, horizontal: 6)
-            : EdgeInsets.symmetric(vertical: 10, horizontal: 6),
-        padding: EdgeInsets.symmetric(horizontal: 25, vertical: 8),
-        // height: 40,
-        decoration: _isSendByMe
-            ? BoxDecoration(
-                color: const Color(0xffffd2c1),
-                border: Border.all(
-                  width: 1,
-                  color: const Color(0xffff7847),
+      alignment:
+          widget._isSendByMe ? Alignment.centerRight : Alignment.centerLeft,
+      child: GestureDetector(
+        onLongPress: () {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) =>
+                _buildPopupDialog(context, widget._message),
+          );
+        },
+        child: Container(
+          margin: widget._isSendByMe
+              ? EdgeInsets.only(top: 2, bottom: 2, left: 64, right: 0)
+              : EdgeInsets.only(top: 10, bottom: 10, left: 0, right: 64),
+          padding: EdgeInsets.symmetric(horizontal: 25, vertical: 8),
+          // height: 40,
+          decoration: widget._isSendByMe
+              ? BoxDecoration(
+                  color: const Color(0xffFFE1D6),
+                  // border: Border.all(
+                  //   width: 1,
+                  //   color: const Color(0xffff7847),
+                  // ),
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(30),
+                    topLeft: Radius.circular(30),
+                    topRight: Radius.circular(30),
+                  ))
+              : BoxDecoration(
+                  color: const Color(0xff64676E),
+                  // border: Border.all(
+                  //   width: 1,
+                  //   color: Color(0xff171c26),
+                  // ),
+                  borderRadius: BorderRadius.only(
+                    bottomRight: Radius.circular(30),
+                    topLeft: Radius.circular(30),
+                    topRight: Radius.circular(30),
+                  ),
                 ),
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(30),
-                  topLeft: Radius.circular(30),
-                  topRight: Radius.circular(30),
-                ))
-            : BoxDecoration(
-                color: const Color(0xffe5e5e6),
-                border: Border.all(
-                  width: 1,
-                  color: Color(0xff171c26),
-                ),
-                borderRadius: BorderRadius.only(
-                  bottomRight: Radius.circular(30),
-                  topLeft: Radius.circular(30),
-                  topRight: Radius.circular(30),
-                ),
-              ),
-        child: Text(
-          _message,
-          style: TextStyle(fontSize: 16),
+          child: Text(
+            widget._message,
+            style: TextStyle(
+              fontSize: 16,
+              color: widget._isSendByMe ? Color(0xff121212) : Color(0xffFAFAFA),
+            ),
+          ),
         ),
       ),
     );
