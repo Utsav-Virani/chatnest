@@ -16,17 +16,17 @@ class WelcomeScreen extends StatelessWidget {
           GestureDetector(
             onTap: () {
               Navigator.of(context).pushReplacement(
-                  PageRouteBuilder(
-                    transitionDuration: Duration(seconds: 0),
-                    pageBuilder: (context, animation1, animation2) =>
-                        SignInScreen(),
-                    // null
-                  ),
-                );
+                PageRouteBuilder(
+                  transitionDuration: Duration(seconds: 0),
+                  pageBuilder: (context, animation1, animation2) =>
+                      SignInScreen(),
+                  // null
+                ),
+              );
             },
             child: Pinned.fromPins(
               Pin(size: 200.0, middle: 0.5),
-              Pin(size: 198.8, end: -79.4),
+              Pin(size: 198.8, end: -120),
               child: Stack(
                 children: <Widget>[
                   Pinned.fromPins(
@@ -40,7 +40,7 @@ class WelcomeScreen extends StatelessWidget {
                   ),
                   Pinned.fromPins(
                     Pin(size: 82.0, middle: 0.5),
-                    Pin(size: 37.0, middle: 0.3486),
+                    Pin(size: 37.0, middle: 0.2),
                     child: Text(
                       'Next',
                       style: TextStyle(
@@ -60,65 +60,27 @@ class WelcomeScreen extends StatelessWidget {
               ),
             ),
           ),
+
+          // Container(
+          //   alignment: Alignment.center,
+          //   // height: 200,
+          //   // width: 200,
+          //   child: SvgPicture.asset(
+          //     "assets/svgs/ChatNest.svg",
+          //     height: 250,
+          //     width: 250,
+          //   ),
+          // ),
+
           Pinned.fromPins(
             Pin(size: 237.7, middle: 0.5),
             Pin(size: 226.7, start: MediaQuery.of(context).size.height * 0.08),
             child: Stack(
               children: <Widget>[
-                Pinned.fromPins(
-                  Pin(start: 0.0, end: 0.0),
-                  Pin(start: 0.0, end: 0.0),
-                  child: SvgPicture.string(
-                    _svg_cycunt,
-                    allowDrawingOutsideViewBox: true,
-                    fit: BoxFit.fill,
-                  ),
-                ),
-                Pinned.fromPins(
-                  Pin(size: 110.3, middle: 0.5),
-                  Pin(size: 104.4, middle: 0.5),
-                  child:
-                      // Adobe XD layer: 'New Layer' (group)
-                      Stack(
-                    children: <Widget>[
-                      Pinned.fromPins(
-                        Pin(size: 30.9, middle: 0.2337),
-                        Pin(size: 30.9, start: 0.0),
-                        child: SvgPicture.string(
-                          _svg_5gv4y3,
-                          allowDrawingOutsideViewBox: true,
-                          fit: BoxFit.fill,
-                        ),
-                      ),
-                      Pinned.fromPins(
-                        Pin(size: 67.9, start: 0.0),
-                        Pin(size: 69.4, end: 0.0),
-                        child: SvgPicture.string(
-                          _svg_1bb9ai,
-                          allowDrawingOutsideViewBox: true,
-                          fit: BoxFit.fill,
-                        ),
-                      ),
-                      Pinned.fromPins(
-                        Pin(size: 30.9, middle: 0.766),
-                        Pin(size: 30.9, start: 0.0),
-                        child: SvgPicture.string(
-                          _svg_a7as1i,
-                          allowDrawingOutsideViewBox: true,
-                          fit: BoxFit.fill,
-                        ),
-                      ),
-                      Pinned.fromPins(
-                        Pin(size: 67.9, end: 0.0),
-                        Pin(size: 69.4, end: 0.0),
-                        child: SvgPicture.string(
-                          _svg_6v0p8i,
-                          allowDrawingOutsideViewBox: true,
-                          fit: BoxFit.fill,
-                        ),
-                      ),
-                    ],
-                  ),
+                SvgPicture.asset(
+                  "assets/svgs/ChatNest.svg",
+                  height: 250,
+                  width: 250,
                 ),
               ],
             ),
@@ -145,7 +107,7 @@ class WelcomeScreen extends StatelessWidget {
                       fontFamily: 'OdibeeSans',
                       // fontWeight: FontWeight.bold,
                       fontSize: 64,
-                      color: const Color(0xffff7847),
+                      color: const Color(0xffbf6228),
                       letterSpacing: 2,
                     ),
                   ),

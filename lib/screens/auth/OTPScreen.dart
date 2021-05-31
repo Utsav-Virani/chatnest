@@ -25,18 +25,20 @@ class _OTPScreenState extends State<OTPScreen> {
 
   BoxDecoration get _pinPutDecoration {
     return BoxDecoration(
-      color: ColorPalette['secondary'].withOpacity(0.3),
-      border: Border.all(
-        color: ColorPalette['secondary'],
-        width: 2.5,
-      ),
-      borderRadius: BorderRadius.circular(18.0),
+      borderRadius: BorderRadius.circular(20.0),
+      color: const Color(0xffffcab7),
+      // color: ColorPalette['secondary'].withOpacity(0.3),
+      // border: Border.all(
+      //   color: ColorPalette['secondary'],
+      //   width: 2.5,
+      // ),
+      // borderRadius: BorderRadius.circular(18.0),
     );
   }
 
   @override
   void initState() {
-    // _verifyPhone();
+    _verifyPhone();
     super.initState();
   }
 
@@ -48,12 +50,13 @@ class _OTPScreenState extends State<OTPScreen> {
             .signInWithCredential(credential)
             .then((value) async {
           if (value != null) {
-            // Navigator.pushReplacement(
-            //   context,
-            //   MaterialPageRoute(
-            //     builder: (context) => CredentialsScreen(),
-            //   ),
-            // );
+            Navigator.of(context).pushReplacement(
+              PageRouteBuilder(
+                transitionDuration: Duration(seconds: 0),
+                pageBuilder: (context, animation1, animation2) =>
+                    CredentialsScreen(),
+              ),
+            );
           }
         });
       },
@@ -77,6 +80,12 @@ class _OTPScreenState extends State<OTPScreen> {
           verificationCode = verificationId;
         });
         print('==========timeout==========');
+        Navigator.of(context).pushReplacement(
+          PageRouteBuilder(
+            transitionDuration: Duration(seconds: 0),
+            pageBuilder: (context, animation1, animation2) => SignInScreen(),
+          ),
+        );
       },
       timeout: Duration(seconds: 60),
     );
@@ -93,7 +102,7 @@ class _OTPScreenState extends State<OTPScreen> {
       //   ),
       // ),
       key: _scaffoldKey,
-      body: Center(
+      body: SingleChildScrollView(
         child: Column(
           // mainAxisSize: MainAxisSize.min,
           // mainAxisAlignment: MainAxisAlignment.center,
@@ -150,9 +159,9 @@ class _OTPScreenState extends State<OTPScreen> {
                           width: 24,
                         ),
                         Text(
-                          'Verification',
+                          'Confirmation',
                           style: TextStyle(
-                            fontFamily: 'Montserrat',
+                            fontFamily: 'Montserrat_B',
                             fontSize: 26,
                             color: const Color(0xfffefefe),
                             letterSpacing: 2.262,
@@ -212,45 +221,60 @@ class _OTPScreenState extends State<OTPScreen> {
                       },
                     ),
                   ),
-                  SizedBox(
-                    height: 50,
-                    width: 0,
-                  ),
-                  // Text(
-                  //   "We have sent OTP on your number",
-                  //   textAlign: TextAlign.center,
-                  //   style: TextStyle(
-                  //     fontSize: 20,
-                  //     color: ColorPalette['gray_4'],
-                  //     fontWeight: FontWeight.w500,
-                  //   ),
-                  // ),
                   // SizedBox(
-                  //   height: 10,
+                  //   height: 20,
                   //   width: 0,
                   // ),
-                  // Text(
-                  //   // widget.phoneNumber.length.toString(),
-                  //   widget.phoneNumber.replaceRange(
-                  //       widget.phoneNumber.length - 10,
-                  //       widget.phoneNumber.length - 4,
-                  //       "******"),
-                  //   style: TextStyle(
-                  //     fontSize: 18,
-                  //     // color: ColorPalette['secondary'],
-                  //     fontWeight: FontWeight.w500,
-                  //   ),
-                  // ),
+                  Container(
+                    height: 55,
+                    child: Column(
+                      children: [
+                        Text(
+                          "We have sent OTP on your number",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: ColorPalette['gray_4'],
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        // SizedBox(
+                        //   height: 10,
+                        //   width: 0,
+                        // ),
+                        Text(
+                          // widget.phoneNumber.length.toString(),
+                          widget.phoneNumber.replaceRange(
+                              widget.phoneNumber.length - 10,
+                              widget.phoneNumber.length - 4,
+                              "******"),
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: ColorPalette['gray_3'],
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
+            SizedBox(
+              height: 50,
+            ),
             Container(
               height: 90,
+              // width: ,
               // color: Colors.white,
-              margin: const EdgeInsets.all(20.0),
-              padding: const EdgeInsets.all(20.0),
+              margin:
+                  const EdgeInsets.symmetric(vertical: 30.0, horizontal: 20),
+              padding:
+                  const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10),
               child: PinPut(
                 fieldsCount: 6,
+                eachFieldWidth: 50,
+                eachFieldHeight: 60,
                 onSubmit: (pin) async {
                   try {
                     // FirebaseAuth auth = FirebaseAuth.instance;
@@ -289,12 +313,19 @@ class _OTPScreenState extends State<OTPScreen> {
                     )
                         .then((value) {
                       if (value != null) {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => CredentialsScreen(),
+                        Navigator.of(context).pushReplacement(
+                          PageRouteBuilder(
+                            transitionDuration: Duration(seconds: 0),
+                            pageBuilder: (context, animation1, animation2) =>
+                                CredentialsScreen(),
                           ),
                         );
+                        // Navigator.pushReplacement(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (context) => CredentialsScreen(),
+                        //   ),
+                        // );
                       }
                     });
                   } catch (e) {
@@ -303,51 +334,132 @@ class _OTPScreenState extends State<OTPScreen> {
                         .showSnackBar(SnackBar(content: Text("Invalid OTP")));
                   }
                 },
+                textStyle: TextStyle(
+                  color: const Color(0xff171c26),
+                  fontFamily: 'Montserrat',
+                ),
                 focusNode: _pinPutFocusNode,
                 controller: _pinPutController,
                 submittedFieldDecoration: _pinPutDecoration.copyWith(
-                  borderRadius: BorderRadius.circular(20.0),
-                ),
+                    // borderRadius: BorderRadius.circular(20.0),
+                    ),
                 selectedFieldDecoration: _pinPutDecoration,
                 followingFieldDecoration: _pinPutDecoration.copyWith(
-                  borderRadius: BorderRadius.circular(5.0),
-                  border: Border.all(
-                      color: ColorPalette['secondary'].withOpacity(.7),
-                      width: 2),
-                ),
+                    // borderRadius: BorderRadius.circular(5.0),
+                    // border: Border.all(
+                    //   color: ColorPalette['secondary'].withOpacity(.7),
+                    //   width: 2,
+                    // ),
+                    ),
               ),
             ),
-            Container(
-              width: 160,
-              margin: EdgeInsets.only(top: 30),
-              padding: EdgeInsets.symmetric(vertical: 14),
-              decoration: BoxDecoration(
-                color: ColorPalette['primary'],
-                borderRadius: BorderRadius.all(
-                  Radius.circular(10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Do not got your number ? ',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    fontFamily: 'Montserrat',
+                    fontSize: 14,
+                    color: const Color(0xff656566),
+                    letterSpacing: 0.36,
+                    height: 0.94,
+                  ),
+                  textHeightBehavior:
+                      TextHeightBehavior(applyHeightToFirstAscent: false),
+                  textAlign: TextAlign.center,
                 ),
-              ),
-              alignment: Alignment.bottomCenter,
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => SignInScreen(),
-                    ),
-                  );
-                },
-                child: Container(
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pushReplacement(
+                      PageRouteBuilder(
+                        transitionDuration: Duration(seconds: 0),
+                        pageBuilder: (context, animation1, animation2) =>
+                            SignInScreen(),
+                      ),
+                    );
+                  },
                   child: Text(
-                    "Go Back",
+                    'Click Hear',
                     style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
+                      color: const Color(0xffff7847),
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Montserrat_B',
+                      decoration: TextDecoration.underline,
+                      fontSize: 14,
+                      letterSpacing: 0.36,
+                      height: 0.94,
                     ),
+                    textHeightBehavior:
+                        TextHeightBehavior(applyHeightToFirstAscent: false),
+                    textAlign: TextAlign.center,
                   ),
                 ),
-              ),
+              ],
             ),
+            // Text.rich(
+            //   TextSpan(
+            //     style: TextStyle(
+            //       fontFamily: 'Montserrat',
+            //       fontSize: 14,
+            //       color: const Color(0xff656566),
+            //       letterSpacing: 0.36,
+            //       height: 0.94,
+            //     ),
+            //     children: [
+            //       TextSpan(
+            //         text: 'Do not got your number ? ',
+            //         style: TextStyle(
+            //           fontWeight: FontWeight.w700,
+            //         ),
+            //       ),
+            //       TextSpan(
+            //         text: 'Click Hear',
+            //         style: TextStyle(
+            //           color: const Color(0xffff7847),
+            //           fontWeight: FontWeight.bold,
+            //           fontFamily: 'Montserrat_B',
+            //           decoration: TextDecoration.underline,
+            //         ),
+            //       ),
+            //     ],
+            //   ),
+            //   textHeightBehavior:
+            //       TextHeightBehavior(applyHeightToFirstAscent: false),
+            //   textAlign: TextAlign.center,
+            // ),
+            // Container(
+            //   width: 160,
+            //   margin: EdgeInsets.only(top: 30),
+            //   padding: EdgeInsets.symmetric(vertical: 14),
+            //   decoration: BoxDecoration(
+            //     color: ColorPalette['primary'],
+            //     borderRadius: BorderRadius.all(
+            //       Radius.circular(10),
+            //     ),
+            //   ),
+            //   alignment: Alignment.bottomCenter,
+            //   child: GestureDetector(
+            //     onTap: () {
+            //       Navigator.pushReplacement(
+            //         context,
+            //         MaterialPageRoute(
+            //           builder: (context) => SignInScreen(),
+            //         ),
+            //       );
+            //     },
+            //     child: Container(
+            //       child: Text(
+            //         "Go Back",
+            //         style: TextStyle(
+            //           color: Colors.white,
+            //           fontSize: 18,
+            //         ),
+            //       ),
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),

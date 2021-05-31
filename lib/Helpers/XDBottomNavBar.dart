@@ -1,3 +1,4 @@
+import 'package:chatnest/screens/MyProfileScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:adobe_xd/pinned.dart';
@@ -129,92 +130,303 @@ class _XDBottomNavBarState extends State<XDBottomNavBar> {
                   ),
                 ),
               )
-            : 
-            Pinned.fromPins(
-              Pin(size: 190.0, middle: 0.5),
-              Pin(size: 155.0, start: 0.0),
-              child: Stack(
-                children: <Widget>[
-                  Pinned.fromPins(
-                    Pin(size: 70.0, middle: 0.5),
-                    Pin(size: 70.0, end: 0.0),
-                    child: GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          isLogoClicked = !isLogoClicked;
-                          isSettingClicked = false;
-                    isPersonClicked = false;
-                        });
-                      },
-                      child: Stack(
-                        children: <Widget>[
-                          Pinned.fromPins(
-                            Pin(start: 0.0, end: 0.0),
-                            Pin(start: 0.0, end: 0.0),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.all(
-                                    Radius.elliptical(9999.0, 9999.0)),
-                                color: const Color(0xff171c26),
-                                border: Border.all(
-                                    width: 2.0,
-                                    color: const Color(0xffff7847)),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: const Color(0x1a292929),
-                                    offset: Offset(4, 4),
-                                    blurRadius: 6,
+            : Pinned.fromPins(
+                Pin(size: 190.0, middle: 0.5),
+                Pin(size: 155.0, start: 0.0),
+                child: Stack(
+                  children: <Widget>[
+                    Pinned.fromPins(
+                      Pin(size: 70.0, middle: 0.5),
+                      Pin(size: 70.0, end: 0.0),
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            isLogoClicked = !isLogoClicked;
+                            isSettingClicked = false;
+                            isPersonClicked = false;
+                          });
+                        },
+                        child: Stack(
+                          children: <Widget>[
+                            Pinned.fromPins(
+                              Pin(start: 0.0, end: 0.0),
+                              Pin(start: 0.0, end: 0.0),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.all(
+                                      Radius.elliptical(9999.0, 9999.0)),
+                                  color: const Color(0xff171c26),
+                                  border: Border.all(
+                                      width: 2.0,
+                                      color: const Color(0xffff7847)),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: const Color(0x1a292929),
+                                      offset: Offset(4, 4),
+                                      blurRadius: 6,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Pinned.fromPins(
+                              Pin(size: 36.6, middle: 0.5),
+                              Pin(size: 34.7, middle: 0.5),
+                              child: Stack(
+                                children: <Widget>[
+                                  Pinned.fromPins(
+                                    Pin(start: 0.0, end: 0.0),
+                                    Pin(start: 0.0, end: 0.0),
+                                    child:
+                                        // Adobe XD layer: 'New Layer' (group)
+                                        Stack(
+                                      children: <Widget>[
+                                        Pinned.fromPins(
+                                          Pin(size: 10.4, middle: 0.2336),
+                                          Pin(size: 10.4, start: 0.0),
+                                          child: SvgPicture.string(
+                                            _svg_yf4j62,
+                                            allowDrawingOutsideViewBox: true,
+                                            fit: BoxFit.fill,
+                                          ),
+                                        ),
+                                        Pinned.fromPins(
+                                          Pin(size: 22.8, start: 0.0),
+                                          Pin(size: 23.3, end: 0.0),
+                                          child: SvgPicture.string(
+                                            _svg_uj8mw3,
+                                            allowDrawingOutsideViewBox: true,
+                                            fit: BoxFit.fill,
+                                          ),
+                                        ),
+                                        Pinned.fromPins(
+                                          Pin(size: 10.4, middle: 0.766),
+                                          Pin(size: 10.4, start: 0.0),
+                                          child: SvgPicture.string(
+                                            _svg_8hzc56,
+                                            allowDrawingOutsideViewBox: true,
+                                            fit: BoxFit.fill,
+                                          ),
+                                        ),
+                                        Pinned.fromPins(
+                                          Pin(size: 22.8, end: 0.0),
+                                          Pin(size: 23.3, end: 0.0),
+                                          child: SvgPicture.string(
+                                            _svg_6ljv0z,
+                                            allowDrawingOutsideViewBox: true,
+                                            fit: BoxFit.fill,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ],
                               ),
                             ),
-                          ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Pinned.fromPins(
+                      Pin(start: 0.0, end: 0.0),
+                      Pin(size: 85.0, start: 0.0),
+                      child: Stack(
+                        children: <Widget>[
+                          //! Chat Logo
                           Pinned.fromPins(
-                            Pin(size: 36.6, middle: 0.5),
-                            Pin(size: 34.7, middle: 0.5),
+                            Pin(size: 50.0, middle: 0.5),
+                            Pin(size: 50.0, start: 0.0),
                             child: Stack(
                               children: <Widget>[
                                 Pinned.fromPins(
                                   Pin(start: 0.0, end: 0.0),
                                   Pin(start: 0.0, end: 0.0),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.elliptical(9999.0, 9999.0)),
+                                      color: const Color(0xffff7847),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: const Color(0x1a292929),
+                                          offset: Offset(4, 4),
+                                          blurRadius: 6,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Pinned.fromPins(
+                                  Pin(size: 21.5, middle: 0.4911),
+                                  Pin(size: 21.5, middle: 0.4911),
                                   child:
-                                      // Adobe XD layer: 'New Layer' (group)
+                                      // Adobe XD layer: 'Iconly/Light-Outlin…' (group)
                                       Stack(
                                     children: <Widget>[
                                       Pinned.fromPins(
-                                        Pin(size: 10.4, middle: 0.2336),
-                                        Pin(size: 10.4, start: 0.0),
-                                        child: SvgPicture.string(
-                                          _svg_yf4j62,
-                                          allowDrawingOutsideViewBox: true,
-                                          fit: BoxFit.fill,
+                                        Pin(
+                                            startFraction: 0.0,
+                                            endFraction: 0.0),
+                                        Pin(
+                                            startFraction: 0.0,
+                                            endFraction: 0.0),
+                                        child:
+                                            // Adobe XD layer: 'Chat' (group)
+                                            Stack(
+                                          children: <Widget>[
+                                            Pinned.fromPins(
+                                              Pin(
+                                                  startFraction: 0.0,
+                                                  endFraction: 0.0),
+                                              Pin(
+                                                  startFraction: 0.0,
+                                                  endFraction: 0.0),
+                                              child:
+                                                  // Adobe XD layer: 'Combined Shape' (shape)
+                                                  SvgPicture.string(
+                                                _svg_53raek,
+                                                allowDrawingOutsideViewBox:
+                                                    true,
+                                                fit: BoxFit.fill,
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+
+                          //! Call Logo
+                          Pinned.fromPins(
+                            Pin(size: 50.0, start: 0.0),
+                            Pin(size: 50.0, end: 0.0),
+                            child: Stack(
+                              children: <Widget>[
+                                Pinned.fromPins(
+                                  Pin(start: 0.0, end: 0.0),
+                                  Pin(start: 0.0, end: 0.0),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.elliptical(9999.0, 9999.0)),
+                                      color: const Color(0xffff7847),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: const Color(0x1a292929),
+                                          offset: Offset(4, 4),
+                                          blurRadius: 6,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Pinned.fromPins(
+                                  Pin(size: 20.5, middle: 0.5085),
+                                  Pin(size: 20.5, middle: 0.5085),
+                                  child:
+                                      // Adobe XD layer: 'Iconly/Light-Outlin…' (group)
+                                      Stack(
+                                    children: <Widget>[
                                       Pinned.fromPins(
-                                        Pin(size: 22.8, start: 0.0),
-                                        Pin(size: 23.3, end: 0.0),
-                                        child: SvgPicture.string(
-                                          _svg_uj8mw3,
-                                          allowDrawingOutsideViewBox: true,
-                                          fit: BoxFit.fill,
+                                        Pin(
+                                            startFraction: 0.0,
+                                            endFraction: 0.0),
+                                        Pin(
+                                            startFraction: 0.0,
+                                            endFraction: 0.0),
+                                        child:
+                                            // Adobe XD layer: 'Call' (group)
+                                            Stack(
+                                          children: <Widget>[
+                                            Pinned.fromPins(
+                                              Pin(
+                                                  startFraction: 0.0,
+                                                  endFraction: 0.0),
+                                              Pin(
+                                                  startFraction: 0.0,
+                                                  endFraction: 0.0),
+                                              child:
+                                                  // Adobe XD layer: 'Fill 1' (shape)
+                                                  SvgPicture.string(
+                                                _svg_hgxv9o,
+                                                allowDrawingOutsideViewBox:
+                                                    true,
+                                                fit: BoxFit.fill,
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ),
-                                      Pinned.fromPins(
-                                        Pin(size: 10.4, middle: 0.766),
-                                        Pin(size: 10.4, start: 0.0),
-                                        child: SvgPicture.string(
-                                          _svg_8hzc56,
-                                          allowDrawingOutsideViewBox: true,
-                                          fit: BoxFit.fill,
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+
+                          //! Send Logo
+                          Pinned.fromPins(
+                            Pin(size: 50.0, end: 0.0),
+                            Pin(size: 50.0, end: 0.0),
+                            child: Stack(
+                              children: <Widget>[
+                                Pinned.fromPins(
+                                  Pin(start: 0.0, end: 0.0),
+                                  Pin(start: 0.0, end: 0.0),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.elliptical(9999.0, 9999.0)),
+                                      color: const Color(0xffff7847),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: const Color(0x1a292929),
+                                          offset: Offset(4, 4),
+                                          blurRadius: 6,
                                         ),
-                                      ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Pinned.fromPins(
+                                  Pin(size: 19.5, middle: 0.459),
+                                  Pin(size: 19.5, middle: 0.5246),
+                                  child:
+                                      // Adobe XD layer: 'Iconly/Light-Outlin…' (group)
+                                      Stack(
+                                    children: <Widget>[
                                       Pinned.fromPins(
-                                        Pin(size: 22.8, end: 0.0),
-                                        Pin(size: 23.3, end: 0.0),
-                                        child: SvgPicture.string(
-                                          _svg_6ljv0z,
-                                          allowDrawingOutsideViewBox: true,
-                                          fit: BoxFit.fill,
+                                        Pin(
+                                            startFraction: 0.0,
+                                            endFraction: 0.0),
+                                        Pin(
+                                            startFraction: 0.0,
+                                            endFraction: 0.0),
+                                        child:
+                                            // Adobe XD layer: 'Send' (group)
+                                            Stack(
+                                          children: <Widget>[
+                                            Pinned.fromPins(
+                                              Pin(
+                                                  startFraction: 0.0,
+                                                  endFraction: 0.0),
+                                              Pin(
+                                                  startFraction: 0.0,
+                                                  endFraction: 0.0),
+                                              child:
+                                                  // Adobe XD layer: 'Fill 1' (shape)
+                                                  SvgPicture.string(
+                                                _svg_yw24h1,
+                                                allowDrawingOutsideViewBox:
+                                                    true,
+                                                fit: BoxFit.fill,
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ),
                                     ],
@@ -226,221 +438,9 @@ class _XDBottomNavBarState extends State<XDBottomNavBar> {
                         ],
                       ),
                     ),
-                  ),
-                  Pinned.fromPins(
-                    Pin(start: 0.0, end: 0.0),
-                    Pin(size: 85.0, start: 0.0),
-                    child: Stack(
-                      children: <Widget>[
-                        //! Chat Logo
-                        Pinned.fromPins(
-                          Pin(size: 50.0, middle: 0.5),
-                          Pin(size: 50.0, start: 0.0),
-                          child: Stack(
-                            children: <Widget>[
-                              Pinned.fromPins(
-                                Pin(start: 0.0, end: 0.0),
-                                Pin(start: 0.0, end: 0.0),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.all(
-                                        Radius.elliptical(9999.0, 9999.0)),
-                                    color: const Color(0xffff7847),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: const Color(0x1a292929),
-                                        offset: Offset(4, 4),
-                                        blurRadius: 6,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              Pinned.fromPins(
-                                Pin(size: 21.5, middle: 0.4911),
-                                Pin(size: 21.5, middle: 0.4911),
-                                child:
-                                    // Adobe XD layer: 'Iconly/Light-Outlin…' (group)
-                                    Stack(
-                                  children: <Widget>[
-                                    Pinned.fromPins(
-                                      Pin(
-                                          startFraction: 0.0,
-                                          endFraction: 0.0),
-                                      Pin(
-                                          startFraction: 0.0,
-                                          endFraction: 0.0),
-                                      child:
-                                          // Adobe XD layer: 'Chat' (group)
-                                          Stack(
-                                        children: <Widget>[
-                                          Pinned.fromPins(
-                                            Pin(
-                                                startFraction: 0.0,
-                                                endFraction: 0.0),
-                                            Pin(
-                                                startFraction: 0.0,
-                                                endFraction: 0.0),
-                                            child:
-                                                // Adobe XD layer: 'Combined Shape' (shape)
-                                                SvgPicture.string(
-                                              _svg_53raek,
-                                              allowDrawingOutsideViewBox:
-                                                  true,
-                                              fit: BoxFit.fill,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-
-                        //! Call Logo
-                        Pinned.fromPins(
-                          Pin(size: 50.0, start: 0.0),
-                          Pin(size: 50.0, end: 0.0),
-                          child: Stack(
-                            children: <Widget>[
-                              Pinned.fromPins(
-                                Pin(start: 0.0, end: 0.0),
-                                Pin(start: 0.0, end: 0.0),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.all(
-                                        Radius.elliptical(9999.0, 9999.0)),
-                                    color: const Color(0xffff7847),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: const Color(0x1a292929),
-                                        offset: Offset(4, 4),
-                                        blurRadius: 6,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              Pinned.fromPins(
-                                Pin(size: 20.5, middle: 0.5085),
-                                Pin(size: 20.5, middle: 0.5085),
-                                child:
-                                    // Adobe XD layer: 'Iconly/Light-Outlin…' (group)
-                                    Stack(
-                                  children: <Widget>[
-                                    Pinned.fromPins(
-                                      Pin(
-                                          startFraction: 0.0,
-                                          endFraction: 0.0),
-                                      Pin(
-                                          startFraction: 0.0,
-                                          endFraction: 0.0),
-                                      child:
-                                          // Adobe XD layer: 'Call' (group)
-                                          Stack(
-                                        children: <Widget>[
-                                          Pinned.fromPins(
-                                            Pin(
-                                                startFraction: 0.0,
-                                                endFraction: 0.0),
-                                            Pin(
-                                                startFraction: 0.0,
-                                                endFraction: 0.0),
-                                            child:
-                                                // Adobe XD layer: 'Fill 1' (shape)
-                                                SvgPicture.string(
-                                              _svg_hgxv9o,
-                                              allowDrawingOutsideViewBox:
-                                                  true,
-                                              fit: BoxFit.fill,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-
-                        //! Send Logo
-                        Pinned.fromPins(
-                          Pin(size: 50.0, end: 0.0),
-                          Pin(size: 50.0, end: 0.0),
-                          child: Stack(
-                            children: <Widget>[
-                              Pinned.fromPins(
-                                Pin(start: 0.0, end: 0.0),
-                                Pin(start: 0.0, end: 0.0),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.all(
-                                        Radius.elliptical(9999.0, 9999.0)),
-                                    color: const Color(0xffff7847),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: const Color(0x1a292929),
-                                        offset: Offset(4, 4),
-                                        blurRadius: 6,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              Pinned.fromPins(
-                                Pin(size: 19.5, middle: 0.459),
-                                Pin(size: 19.5, middle: 0.5246),
-                                child:
-                                    // Adobe XD layer: 'Iconly/Light-Outlin…' (group)
-                                    Stack(
-                                  children: <Widget>[
-                                    Pinned.fromPins(
-                                      Pin(
-                                          startFraction: 0.0,
-                                          endFraction: 0.0),
-                                      Pin(
-                                          startFraction: 0.0,
-                                          endFraction: 0.0),
-                                      child:
-                                          // Adobe XD layer: 'Send' (group)
-                                          Stack(
-                                        children: <Widget>[
-                                          Pinned.fromPins(
-                                            Pin(
-                                                startFraction: 0.0,
-                                                endFraction: 0.0),
-                                            Pin(
-                                                startFraction: 0.0,
-                                                endFraction: 0.0),
-                                            child:
-                                                // Adobe XD layer: 'Fill 1' (shape)
-                                                SvgPicture.string(
-                                              _svg_yw24h1,
-                                              allowDrawingOutsideViewBox:
-                                                  true,
-                                              fit: BoxFit.fill,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
 
         //! Setting ICON Light
         Pinned.fromPins(
@@ -555,7 +555,12 @@ class _XDBottomNavBarState extends State<XDBottomNavBar> {
               isSettingClicked = false;
               isLogoClicked = false;
             });
-            FirebaseAuth.instance.signOut();
+            Navigator.of(context).push(
+              PageRouteBuilder(
+                transitionDuration: Duration(seconds: 0),
+                pageBuilder: (context, animation1, animation2) => MyProfile(),
+              ),
+            );
           },
           child: Pinned.fromPins(
             Pin(size: 46.5, end: 56.9),

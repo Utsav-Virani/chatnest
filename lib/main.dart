@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
       title: "ChatNest",
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        fontFamily: 'OpenSans',
+        fontFamily: 'Montserrat',
         brightness: Brightness.light,
         primaryColor: ColorPalette['primary'],
         primarySwatch: Colors.orange,
@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
           if (userSnapsort.hasData) {
             if (FirebaseAuth.instance.currentUser.email != null) {
               return HomeScreen();
-              // return SearchScreen();
+              // return CredentialsScreen();
             } else {
               return CredentialsScreen();
             }

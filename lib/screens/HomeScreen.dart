@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:adobe_xd/adobe_xd.dart';
 import 'package:chatnest/Helpers/HelperWidgets.dart';
 import 'package:chatnest/Helpers/XDBottomNavBar.dart';
@@ -16,6 +18,8 @@ import 'package:ionicons/ionicons.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:polygon_clipper/polygon_border.dart';
+import 'package:polygon_clipper/polygon_clipper.dart';
 
 class HomeScreen extends StatefulWidget {
   final int selectedIndx;
@@ -26,17 +30,14 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   Stream _availableChatRoomsStream;
+  bool isSearchVisible = false;
+  QuerySnapshot _searchResult;
 
-  String _userName;
-
-  int _selectedIndex = 0;
-  GlobalKey _bottomNavigationKey = GlobalKey();
-  int _page = 0;
+  TextEditingController _searchTextController = TextEditingController();
 
   @override
   void initState() {
     // print();
-    _page = widget.selectedIndx is Null ? 0 : widget.selectedIndx;
 
     // _selectedIndex = widget.selectedIndx is Null ? 0 : widget.selectedIndx;
     _getChatRooms();
@@ -78,24 +79,25 @@ class _HomeScreenState extends State<HomeScreen> {
                 ? ListView.builder(
                     itemCount: snapshot.data.docs.length,
                     itemBuilder: (context, index) {
-                      // print(snapshot.data.docs[index].data()["usersName"][
-                      //     snapshot.data.docs[index]
-                      //         .data()["chatRoomId"]
-                      //         .toString()
-                      //         .replaceAll("_", "")
-                      //         .replaceAll(
-                      //             FirebaseAuth.instance.currentUser.uid, "")]);
+                      // print("-----");
+                      // print(snapshot.data.docs[index]
+                      //     .data()["chatRoomId"]
+                      //     .toString()
+                      //     .replaceAll("_", "")
+                      //     .replaceAll(
+                      //         FirebaseAuth.instance.currentUser.uid, ""));
                       // print(snapshot.data.docs[index].data()["chatRoomId"]);
                       // print(snapshot.data.docs[index].data()["chatRoomId"]);
                       return ChatRoomListTile(
-                          snapshot.data.docs[index].data()["usersName"][snapshot
-                              .data.docs[index]
-                              .data()["chatRoomId"]
-                              .toString()
-                              .replaceAll("_", "")
-                              .replaceAll(
-                                  FirebaseAuth.instance.currentUser.uid, "")],
-                          snapshot.data.docs[index].data()["chatRoomId"]);
+                        userId: snapshot.data.docs[index]
+                            .data()["chatRoomId"]
+                            .toString()
+                            .replaceAll("_", "")
+                            .replaceAll(
+                                FirebaseAuth.instance.currentUser.uid, ""),
+                        chatRoomId:
+                            snapshot.data.docs[index].data()["chatRoomId"],
+                      );
                     },
                   )
                 : Container(
@@ -142,204 +144,118 @@ class _HomeScreenState extends State<HomeScreen> {
     ));
   }
 
-  bool isSearchVisible = false;
+  _searchUser(userName) async {
+    // print(userName);
+    FirebaseFirestore.instance
+        .collection("UserData")
+        .where("name", isEqualTo: userName)
+        .get()
+        .then((value) {
+      setState(() {
+        _searchResult = value;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: WhitePalette['white_4'],
-      // appBar: PreferredSize(
-      //   preferredSize: Size.fromHeight(70),
-      //   child: AppBar(
-      //     // backgroundColor: Colors.amber,
-      //     iconTheme: IconThemeData(
-      //       // color: WhitePalette['white_4'],
-      //       color: ColorPalette['primary'],
-      //       // size: 35,
-      //     ),
-      //     centerTitle: true,
-      //     backgroundColor: WhitePalette['white_4'],
-      //     // backgroundColor: ColorPalette['primary'].withOpacity(0.9),
-      //     // title: Text(
-      //     //   "CHATNEST",
-      //     //   style: TextStyle(
-      //     //     letterSpacing: 3,
-      //     //     fontSize: 30,
-      //     //     // color: WhitePalette['white_4'],
-      //     //     color: ColorPalette['primary'],
-      //     //     fontWeight: FontWeight.bold,
-      //     //   ),
-      //     // ),
-      //     elevation: 0.0,
-      //     // actions: [
-      //     //   IconButton(
-      //     //     icon: Icon(
-      //     //       Icons.person_add_alt_1_outlined,
-      //     //     ),
-      //     //     onPressed: () {
-      //     //       Navigator.of(context).push(
-      //     //         // MaterialPageRoute(
-      //     //         //   builder: (context) {
-      //     //         //     return SearchScreen();
-      //     //         //   },
-      //     //         // ),
-      //     //         PageTransition(
-      //     //           type: PageTransitionType.rightToLeft,
-      //     //           child: SearchScreen(),
-      //     //         ),
-      //     //       );
-      //     //     },
-      //     //   ),
-      //     // ],
-      //   ),
-      // ),
-      // drawer: homeScreenDrawer(context),
-
-      //! BOTTOM NAV
-      // bottomNavigationBar: BottomNavigator(
-      //   selectedIndx: _page,
-      // ),
-
-      // bottomNavigationBar: Container(
-      //   height: 200,
-      //   child: XDBottomNavBar(),
-      // ),
-
-      // floatingActionButton: FabCircularMenu(
-      //   alignment: Alignment.bottomRight,
-      //   // ringColor: Colors.white.withAlpha(25),
-      //   ringDiameter: 420.0,
-      //   ringWidth: 100.0,
-      //   fabSize: 70.0,
-      //   fabElevation: 8.0,
-      //   fabOpenIcon: SvgPicture.asset(
-      //     "assets/svgs/ChatNest_outline.svg",
-      //     height: 30,
-      //   ),
-      //   fabCloseIcon: Icon(
-      //     Icons.close,
-      //   ),
-      //   // fabColor: Colors.transparent,
-      //   fabColor: ColorPalette['nav_bar'],
-      //   children: <Widget>[
-      //     RawMaterialButton(
-      //       onPressed: () {},
-      //       shape: CircleBorder(),
-      //       padding: const EdgeInsets.all(24.0),
-      //       child: Icon(
-      //         LineIcons.home,
-      //         size: _page == 1 ? 26 : 24,
-      //         color: _page == 1 ? ColorPalette['nav_bar'] : Colors.black,
-      //       ),
-      //     ),
-      //     RawMaterialButton(
-      //       onPressed: () {},
-      //       shape: CircleBorder(),
-      //       padding: const EdgeInsets.all(24.0),
-      //       child: Icon(
-      //         LineIcons.phone,
-      //         size: _page == 1 ? 26 : 24,
-      //         color: _page == 1 ? ColorPalette['nav_bar'] : Colors.black,
-      //       ),
-      //     ),
-      //     RawMaterialButton(
-      //       onPressed: () {},
-      //       shape: CircleBorder(),
-      //       padding: const EdgeInsets.all(24.0),
-      //       child: Icon(
-      //         LineIcons.search,
-      //         size: _page == 2 ? 26 : 24,
-      //         color: _page == 2 ? ColorPalette['nav_bar'] : Colors.black,
-      //       ),
-      //     ),
-      //     RawMaterialButton(
-      //       onPressed: () {},
-      //       shape: CircleBorder(),
-      //       padding: const EdgeInsets.all(24.0),
-      //       child: Icon(
-      //         Ionicons.person_add_outline,
-      //         size: _page == 3 ? 26 : 24,
-      //         color: _page == 3 ? ColorPalette['nav_bar'] : Colors.black,
-      //       ),
-      //     ),
-      //     RawMaterialButton(
-      //       onPressed: () {},
-      //       shape: CircleBorder(),
-      //       padding: const EdgeInsets.all(24.0),
-      //       child: Icon(
-      //         LineIcons.user,
-      //         size: _page == 4 ? 26 : 24,
-      //         color: _page == 4 ? ColorPalette['nav_bar'] : Colors.black,
-      //       ),
-      //     ),
-      //   ],
-      // ),
-
-      body: SafeArea(
+      body: SingleChildScrollView(
+        physics: NeverScrollableScrollPhysics(),
         child: Container(
-          margin: EdgeInsets.only(
-            top: 20,
-          ),
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
           child: Column(
             children: [
               Container(
+                margin: EdgeInsets.only(top: 36),
                 // color: Colors.black12,
-                height: 74,
+                height: 100,
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: !isSearchVisible
-                      ? MainAxisAlignment.spaceAround
-                      : MainAxisAlignment.spaceEvenly,
+                      ? MainAxisAlignment.start
+                      : MainAxisAlignment.start,
                   children: [
                     !isSearchVisible
-                        ? Text.rich(
-                            TextSpan(
-                              style: TextStyle(
-                                fontFamily: 'SegoeScript',
-                                fontSize: 60,
-                                fontWeight: FontWeight.bold,
-                                letterSpacing: 4,
-                                color: const Color(0xffff7847),
-                                shadows: [
-                                  Shadow(
-                                    color: const Color(0x33121212),
-                                    offset: Offset(3, 3),
-                                    blurRadius: 6,
-                                  )
-                                ],
-                              ),
+                        ? Container(
+                            // height: 90,
+                            // width: 90,
+                            // color: Colors.amber,
+                            margin: EdgeInsets.only(left: 16),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                TextSpan(
-                                  text: 'C',
-                                ),
-                                TextSpan(
-                                  text: 'hat',
-                                  style: TextStyle(
-                                    fontSize: 45,
+                                Container(
+                                  height: 90,
+                                  width: 90,
+                                  decoration: ShapeDecoration(
+                                    shape: PolygonBorder(
+                                      sides: 5,
+                                      borderRadius: 30.0,
+                                      border: BorderSide(
+                                        color: Color(0xff171c26),
+                                        width: 2,
+                                      ),
+                                    ),
+                                  ),
+                                  child: ClipPolygon(
+                                    sides: 5,
+                                    borderRadius: 30.0,
+                                    boxShadows: [
+                                      PolygonBoxShadow(
+                                        color: Color(0xff121212),
+                                        elevation: 6.0,
+                                      )
+                                    ],
+                                    child: Container(
+                                      child: FirebaseAuth.instance.currentUser
+                                                  .photoURL !=
+                                              null
+                                          ? Image.network(
+                                              FirebaseAuth.instance.currentUser
+                                                  .photoURL,
+                                            )
+                                          : Image.asset(
+                                              "assets/images/default_profile_photo.jpg",
+                                              // fit: BoxFit.scaleDown,
+                                            ),
+                                    ),
                                   ),
                                 ),
-                                TextSpan(
-                                  text: 'N',
-                                  style: TextStyle(
-                                    fontSize: 52,
-                                  ),
-                                ),
-                                TextSpan(
-                                  text: 'est',
-                                  style: TextStyle(
-                                    fontSize: 45,
+                                Container(
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Hello, ",
+                                        style: TextStyle(
+                                          fontFamily: 'Montserrat_M',
+                                          fontSize: 12,
+                                        ),
+                                      ),
+                                      Text(
+                                        FirebaseAuth
+                                            .instance.currentUser.displayName,
+                                        style: TextStyle(
+                                          fontFamily: 'Montserrat_M',
+                                          fontSize: 18,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ],
                             ),
-                            textHeightBehavior: TextHeightBehavior(
-                                applyHeightToFirstAscent: false),
-                            textAlign: TextAlign.center,
                           )
                         : Container(
+                            margin: EdgeInsets.only(left: 16),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 GestureDetector(
                                   onTap: () {
@@ -350,19 +266,20 @@ class _HomeScreenState extends State<HomeScreen> {
                                   child: Container(
                                     height: 44,
                                     width: 50,
-                                    padding: EdgeInsets.all(10.0),
+                                    padding: EdgeInsets.all(5.0),
                                     child: SvgPicture.asset(
                                         "assets/svgs/backButton.svg"),
                                   ),
                                 ),
                                 Container(
                                   width:
-                                      MediaQuery.of(context).size.width * 0.6,
+                                      MediaQuery.of(context).size.width * 0.65,
                                   height: 45,
                                   child: TextFormField(
-                                    // controller: _searchTextController,
+                                    controller: _searchTextController,
                                     onChanged: (val) {
-                                      // _searchUser(val);
+                                      _searchUser(val);
+                                      setState(() {});
                                     },
                                     style: TextStyle(
                                       color: Color(0xff171c26),
@@ -375,11 +292,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     decoration: InputDecoration(
                                       hintText: 'Search',
                                       prefix: Padding(
-                                        padding: EdgeInsets.only(
-                                            left: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.02),
+                                        padding: EdgeInsets.only(left: 10),
                                       ),
                                       // hintStyle: TextStyle(
                                       //   color: ColorPalette['white_1'],
@@ -403,6 +316,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ),
                                       ),
                                       focusColor: Color(0xff171c26),
+                                      // contentPadding:
+                                      //     EdgeInsets.only(left: 16, right: 16),
                                     ),
                                     cursorColor: Color(0xff171c26),
                                   ),
@@ -410,6 +325,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               ],
                             ),
                           ),
+                    Spacer(),
                     GestureDetector(
                       onTap: () {
                         setState(() {
@@ -419,6 +335,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Container(
                         height: 50,
                         width: 50,
+                        margin: EdgeInsets.only(right: 20),
                         padding: EdgeInsets.all(10.0),
                         child: Stack(
                           children: <Widget>[
@@ -450,45 +367,89 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
               ),
-              // Container(
-              //   height: 30,
-              //   decoration: BoxDecoration(
-              //     // color: ColorPalette['primary'],
-              //     color: WhitePalette['white_4'],
-              //   ),
-              //   child: Row(
-              //     crossAxisAlignment: CrossAxisAlignment.center,
-              //     mainAxisAlignment: MainAxisAlignment.center,
-              //     children: [
-              //       // Text(
-              //       //   "Chat",
-              //       //   style: TextStyle(
-              //       //     fontSize: 18,
-              //       //     color: ColorPalette['white_3'],
-              //       //   ),
-              //       // ),
-              //     ],
-              //   ),
-              // ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.03,
-              ),
-              Expanded(
-                child: Stack(
-                  alignment: Alignment.bottomCenter,
-                  children: [
-                    Positioned.fill(
-                      bottom: 80,
-                      child: ChatRoomList(),
-                    ),
-                    Container(
-                      // alignment: Alignment.bottomCenter,
-                      height: 200,
-                      child: XDBottomNavBar(),
-                    )
-                  ],
+              Container(
+                height: 40,
+                margin: EdgeInsets.only(top: 10),
+                decoration: BoxDecoration(
+                  color: Color(0xff171c26),
                 ),
+                child: !isSearchVisible
+                    ? Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            height: 40,
+                            padding: EdgeInsets.symmetric(horizontal: 16),
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              border: Border(
+                                bottom: BorderSide(
+                                  color: const Color(0xffff7847),
+                                  width: 2,
+                                ),
+                              ),
+                            ),
+                            child: Text(
+                              "Chat",
+                              style: TextStyle(
+                                fontSize: 20,
+                                color: const Color(0xffff7847),
+                                fontFamily: 'Montserrat_M',
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
+                    : Container(
+                        height: 40,
+                        padding: EdgeInsets.symmetric(horizontal: 16),
+                        alignment: Alignment.center,
+                        // decoration: BoxDecoration(
+                        //   border: Border(
+                        //     bottom: BorderSide(
+                        //       color: const Color(0xffff7847),
+                        //       width: 2,
+                        //     ),
+                        //   ),
+                        // ),
+                        child: Text(
+                          "Add Friends",
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: const Color(0xffff7847),
+                            fontFamily: 'Montserrat_M',
+                          ),
+                        ),
+                      ),
               ),
+              // SizedBox(
+              //   height: MediaQuery.of(context).size.height * 0.01,
+              // ),
+              !isSearchVisible
+                  ? Expanded(
+                      child: Stack(
+                        alignment: Alignment.bottomCenter,
+                        children: [
+                          Positioned.fill(
+                            bottom: 80,
+                            child: ChatRoomList(),
+                          ),
+                          Container(
+                            // alignment: Alignment.bottomCenter,
+                            height: 200,
+                            child: XDBottomNavBar(),
+                          )
+                        ],
+                      ),
+                    )
+                  : Expanded(
+                      // height: MediaQuery.of(context).size.height,
+                      // width: MediaQuery.of(context).size.width,
+                      child: SearchScreen(
+                        searchResult: _searchResult,
+                      ),
+                    ),
               // Expanded(
               //   child: ChatRoomList(),
               // ),
@@ -499,19 +460,62 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
         ),
+        // : Container(
+        //     height: MediaQuery.of(context).size.height,
+        //     width: MediaQuery.of(context).size.width,
+        //     child: SearchScreen(),
+        //   ),
       ),
     );
   }
 }
 
-class ChatRoomListTile extends StatelessWidget {
-  final String _userName;
-  final String _chatRoomId;
-  ChatRoomListTile(this._userName, this._chatRoomId);
+class ChatRoomListTile extends StatefulWidget {
+  final String userId;
+  final String chatRoomId;
+  ChatRoomListTile({this.userId, this.chatRoomId});
+
+  @override
+  _ChatRoomListTileState createState() => _ChatRoomListTileState();
+}
+
+class _ChatRoomListTileState extends State<ChatRoomListTile> {
+  final TextEditingController _userNameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _statusController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _profilePhotoController = TextEditingController();
+
+  @override
+  void initState() {
+    _getUserData(widget.userId);
+    // TODO: implement initState
+    super.initState();
+  }
+
+  _getUserData(String _uid) async {
+    if (FirebaseAuth.instance.currentUser != null) {
+      // _emailController.text = FirebaseAuth.instance.currentUser.email;
+      // _userNameController.text = FirebaseAuth.instance.currentUser.displayName;
+      // _phoneController.text = FirebaseAuth.instance.currentUser.phoneNumber;
+      FirebaseFirestore.instance.collection("UserData").doc(_uid).get().then(
+        (value) {
+          setState(() {
+            _userNameController.text = value.data()['name'];
+            _emailController.text = value.data()['email'];
+            _phoneController.text = value.data()['phonenumber'];
+            _statusController.text = value.data()['status'];
+            _profilePhotoController.text = value.data()['profilePhoto'];
+          });
+        },
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     // print(_chatRoomId);
-    // print(_userName);
+    // print(userName);
     return Container(
       margin: EdgeInsets.only(bottom: 15),
       height: 70,
@@ -519,54 +523,108 @@ class ChatRoomListTile extends StatelessWidget {
       child: GestureDetector(
         onTap: () {
           Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) {
-                return ChatScreen(
-                  chatRoomId: _chatRoomId,
-                  chatUserName: _userName,
-                );
-              },
+            PageRouteBuilder(
+              transitionDuration: Duration(seconds: 0),
+              pageBuilder: (context, animation1, animation2) => ChatScreen(
+                chatRoomId: widget.chatRoomId,
+                chatUserName: widget.userId,
+              ),
             ),
           );
+          // Navigator.of(context).push(
+          //   MaterialPageRoute(
+          //     builder: (context) {
+          //       return ChatScreen(
+          //         chatRoomId: _chatRoomId,
+          //         chatUserName: userName,
+          //       );
+          //     },
+          //   ),
+          // );
         },
         child: Container(
-          alignment: Alignment.centerLeft,
-          decoration: BoxDecoration(
-              // color: ColorPalette['primary'].withOpacity(0.15),
-              borderRadius: BorderRadius.all(
-                Radius.circular(30),
-              ),
-              border: Border.all(
-                width: 1,
-                color: WhitePalette['white_4'],
-              ),
-              boxShadow: [
-                // BoxShadow(
-                //   color: WhitePalette['white_6'],
-                //   blurRadius: 5,
-                //   spreadRadius: 2,
-                //   offset: Offset(2.0, 2.0),
-                // ),
-              ]),
-          child: ListTile(
-            leading: CircleAvatar(
-              backgroundColor: ColorPalette['gray_0'].withOpacity(0.8),
-              radius: 24,
-              child: Text(
-                _userName[0],
-                style: TextStyle(
-                  color: ColorPalette['white_3'],
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'OpenSans',
+          height: 100,
+          width: MediaQuery.of(context).size.width * 0.5,
+          alignment: Alignment.center,
+          margin: EdgeInsets.symmetric(horizontal: 16),
+          // decoration: BoxDecoration(
+          //   border: Border.all(
+          //     width: 1,
+          //     color: ColorPalette['gray_0'],
+          //   ),
+          //   borderRadius: BorderRadius.all(
+          //     Radius.circular(10),
+          //   ),
+          // ),
+          child: Container(
+            // height: 90,
+            // width: 90,
+            // color: Colors.amber,
+            // margin: EdgeInsets.only(left: 16),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  height: 85,
+                  width: 85,
+                  decoration: ShapeDecoration(
+                    shape: PolygonBorder(
+                      sides: 5,
+                      borderRadius: 30.0,
+                      border: BorderSide(
+                        color: Color(0xff171c26),
+                        width: 2,
+                      ),
+                    ),
+                  ),
+                  child: ClipPolygon(
+                    sides: 5,
+                    borderRadius: 30.0,
+                    boxShadows: [
+                      PolygonBoxShadow(
+                        color: Color(0xff121212),
+                        elevation: 6.0,
+                      )
+                    ],
+                    child: Container(
+                      child: _profilePhotoController != null
+                          ? Image.network(
+                              _profilePhotoController.text,
+                            )
+                          : Image.asset(
+                              "assets/images/default_profile_photo.jpg",
+                              // fit: BoxFit.scaleDown,
+                            ),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            title: Text(
-              _userName,
-              style: TextStyle(
-                fontSize: 20,
-                fontFamily: 'OpenSans',
-              ),
+                Container(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        _userNameController.text,
+                        style: TextStyle(
+                          fontFamily: 'Montserrat_M',
+                          fontSize: 20,
+                          color: Color(0xff171c26),
+                        ),
+                      ),
+                      Text(
+                        _phoneController.text,
+                        style: TextStyle(
+                          fontFamily: 'Montserrat_M',
+                          fontSize: 12,
+                          color: Color(0xff7e8086),
+                          // letterSpacing: 1,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                // Spacer(),
+              ],
             ),
           ),
         ),

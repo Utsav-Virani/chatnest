@@ -1,3 +1,4 @@
+import 'package:adobe_xd/adobe_xd.dart';
 import 'package:chatnest/Helpers/CountrySelecter.dart';
 import 'package:chatnest/Helpers/HelperWidgets.dart';
 import 'package:chatnest/Helpers/colorpanel.dart';
@@ -49,7 +50,6 @@ class _SignInScreenState extends State<SignInScreen> {
           children: [
             Container(
               width: MediaQuery.of(context).size.width,
-              padding: EdgeInsets.only(left: 20),
               height: MediaQuery.of(context).size.height * 0.4,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
@@ -59,60 +59,79 @@ class _SignInScreenState extends State<SignInScreen> {
                 color: const Color(0xff171c26),
               ),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => WelcomeScreen(),
+                  Padding(
+                    padding: EdgeInsets.only(left: 20),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).pushReplacement(
+                              PageRouteBuilder(
+                                transitionDuration: Duration(seconds: 0),
+                                pageBuilder:
+                                    (context, animation1, animation2) =>
+                                        WelcomeScreen(),
+                              ),
+                            );
+                            // Navigator.pushReplacement(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder: (context) => WelcomeScreen(),
+                            //   ),
+                            // );
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: SvgPicture.string(
+                              _svg_8s8yfm,
+                              allowDrawingOutsideViewBox: true,
+                              fit: BoxFit.fill,
                             ),
-                          );
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.all(5.0),
-                          child: SvgPicture.string(
-                            _svg_8s8yfm,
-                            allowDrawingOutsideViewBox: true,
-                            fit: BoxFit.fill,
                           ),
                         ),
-                      ),
-                      SizedBox(
-                        width: 24,
-                      ),
-                      Text(
-                        'Verification',
-                        style: TextStyle(
-                          fontFamily: 'Montserrat',
-                          fontSize: 26,
-                          color: const Color(0xfffefefe),
-                          letterSpacing: 2.262,
-                          fontWeight: FontWeight.w700,
-                          height: 0.6538461538461539,
+                        SizedBox(
+                          width: 24,
                         ),
-                        textHeightBehavior:
-                            TextHeightBehavior(applyHeightToFirstAscent: false),
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
-                  ),
-                  Text(
-                    'We will send you an OTP.',
-                    style: TextStyle(
-                      fontFamily: 'Montserrat',
-                      fontSize: 24,
-                      color: const Color(0xfffff0ea),
-                      letterSpacing: 0.48,
-                      height: 0.7083333333333334,
+                        Text(
+                          'Verification',
+                          style: TextStyle(
+                            fontFamily: 'Montserrat',
+                            fontSize: 26,
+                            color: const Color(0xfffefefe),
+                            letterSpacing: 2.262,
+                            fontWeight: FontWeight.w700,
+                            height: 0.6538461538461539,
+                          ),
+                          textHeightBehavior: TextHeightBehavior(
+                              applyHeightToFirstAscent: false),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
                     ),
-                    textHeightBehavior:
-                        TextHeightBehavior(applyHeightToFirstAscent: false),
-                    textAlign: TextAlign.center,
+                  ),
+                  SizedBox(
+                    height: 95,
+                  ),
+                  Container(
+                    height: 55,
+                    // color: Colors.amber,
+                    width: MediaQuery.of(context).size.width,
+                    child: Text(
+                      'We will send you an OTP.',
+                      style: TextStyle(
+                        fontFamily: 'Montserrat',
+                        fontSize: 24,
+                        color: const Color(0xfffff0ea),
+                        letterSpacing: 0.48,
+                        height: 0.7083333333333334,
+                      ),
+                      textHeightBehavior:
+                          TextHeightBehavior(applyHeightToFirstAscent: false),
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                 ],
               ),
@@ -243,6 +262,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         ],
                       ),
                     ),
+                    
                     // isMobileInvalid
                     //     ? Container(
                     //         height: 20,
@@ -285,15 +305,26 @@ class _SignInScreenState extends State<SignInScreen> {
                           //   });
                           // }
                           if (_formKey.currentState.validate()) {
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => OTPScreen(
+                            Navigator.of(context).pushReplacement(
+                              PageRouteBuilder(
+                                transitionDuration: Duration(seconds: 0),
+                                pageBuilder:
+                                    (context, animation1, animation2) =>
+                                        OTPScreen(
                                   phoneNumber: _phoneCodeController.text +
                                       _phoneNumberController.text,
                                 ),
                               ),
                             );
+                            // Navigator.pushReplacement(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder: (context) => OTPScreen(
+                            //       phoneNumber: _phoneCodeController.text +
+                            //           _phoneNumberController.text,
+                            //     ),
+                            //   ),
+                            // );
                           }
                         },
                         child: Container(

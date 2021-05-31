@@ -30,6 +30,7 @@ dependencies:
     firebase_auth: ^1.0.0
     cloud_firestore: ^1.0.0
     firebase_core: ^1.0.0
+    firebase_storage: ^8.1.0
     flutter_svg: ^0.19.3
     shared_preferences: ^2.0.5
     pinput: ^1.2.0
@@ -39,6 +40,7 @@ dependencies:
     circular_countdown: ^2.0.0
     circular_countdown_timer: ^0.2.0
     image_picker: ^0.7.4
+    image_cropper: ^1.4.0
     http: ^0.13.2
     google_nav_bar: ^5.0.5
     line_icons: ^2.0.0
@@ -46,6 +48,8 @@ dependencies:
     curved_navigation_bar: ^0.3.7
     fab_circular_menu: ^1.0.0
     adobe_xd: ^1.1.0+1
+    polygon_clipper: ^1.0.2
+
 
 dev_dependencies:
     flutter_test:
@@ -107,6 +111,15 @@ flutter:
         - family: Montserrat
           fonts:
               - asset: assets/fonts/Montserrat/Montserrat-Regular.ttf
+
+        - family: Montserrat_B
+          fonts:
+              - asset: assets/fonts/Montserrat/Montserrat-Bold.ttf
+        
+        
+        - family: Montserrat_M
+          fonts:
+              - asset: assets/fonts/Montserrat/Montserrat-Medium.ttf
 
         - family: Ubuntu
           fonts:
